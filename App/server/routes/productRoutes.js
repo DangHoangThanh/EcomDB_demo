@@ -7,20 +7,35 @@ const dbConfig = require('../dbConfig');
 
 
 
-// (GET)/products/all
-// Return all products
-router.get('/products/all', async (req, res) => {
+
+
+// (GET)/product/products/
+// Return products with paging
+router.get('/products/', async (req, res) => {
+    const page = parseInt(req.query.page) || 1
+    const limit = parseInt(req.query.limit) || 10
     try {
         const pool = await sql.connect(dbConfig);
         const request = pool.request(); 
 
-        const result = await request.query('SELECT * FROM [SanPham]');
+        request.input('page', sql.Int, page)
+        request.input('limit', sql.Int, limit)
 
-        return res.json(result.recordsets[0]);
+        const result = await request.execute('GetProductsPaged');
+
+        const products = result.recordsets[0];
+        const pagination = result.recordsets[1][0];
+
+        const reponseContent = {
+            products: products,
+            pagination: pagination
+        } 
+
+        return res.json(reponseContent);
     }
     catch (error) {
         console.error(error);
-        return res.status(500).send({ message: 'Error executing get all products query.' });
+        return res.status(500).send({ message: 'Error executing get products paged.' });
     }
 });
 
@@ -55,17 +70,17 @@ router.get('/:MaSP', async (req, res) => {
 // (GET)/products/topbuy
 // Return top limit most bought products by UserID
 router.get('/products/toppurchased', async (req, res) => {
+    const UserID = req.query.UserID;
+    const limit = parseInt(req.query.limit);
     try {
-        const { UserID, limit } = req.query;
         if (!UserID || !limit) {
             return res.status(400).send({ message: 'Missing required parameters: UserID and limit.' });
         };
-        const limitInt = parseInt(limit);
 
         const pool = await sql.connect(dbConfig);
         const request = pool.request();
         request.input('p_UserID', sql.VarChar, UserID);
-        request.input('p_Limit', sql.Int, limitInt);
+        request.input('p_Limit', sql.Int, limit);
 
         const result = await request.execute('GetTopPurchasedItems');
         return res.json(result.recordsets[0]);
