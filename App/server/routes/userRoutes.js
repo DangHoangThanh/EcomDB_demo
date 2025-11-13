@@ -9,22 +9,39 @@ const dbConfig = require('../dbConfig');
 
 
 
-// (GET)/users/all
-// Return all users
-router.get('/users/all', async (req, res) => {
+
+
+// (GET)/user/users/
+// Return users with paging
+router.get('/users/', async (req, res) => {
+    const page = parseInt(req.query.page) || 1
+    const limit = parseInt(req.query.limit) || 10
     try {
         const pool = await sql.connect(dbConfig);
-        const request = pool.request();
+        const request = pool.request(); 
 
-        const result = await request.query('SELECT * FROM [User]');
-        
-        return res.json(result.recordsets[0]);
+        request.input('page', sql.Int, page)
+        request.input('limit', sql.Int, limit)
+
+        const result = await request.execute('GetUsersPaged');
+
+        const users = result.recordsets[0];
+        const pagination = result.recordsets[1][0];
+
+        const reponseContent = {
+            users: users,
+            pagination: pagination
+        } 
+
+        return res.json(reponseContent);
     }
     catch (error) {
-        console.log(error);
-        return res.status(500).send({ message: 'Error executing get all users query.' });
+        console.error(error);
+        return res.status(500).send({ message: 'Error executing get users paged.' });
     }
 });
+
+
 
 
 

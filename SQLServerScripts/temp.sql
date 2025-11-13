@@ -8,3 +8,8 @@ EXEC GetOrderContentByMaDon 'ORD00001';
 
 EXEC GetDiaChiByUserID 'USE00001';
 EXEC GetThanhToanByMaDon 'ORD00001';
+
+EXEC GetUsersPaged 2, 10;
+EXEC GetProductsPaged 1, 10;
+EXEC GetOrdersPaged 1, 3;
+EXEC GetOrderListByUserIDPaged 'USE00001',1, 3;

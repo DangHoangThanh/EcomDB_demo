@@ -174,3 +174,236 @@ BEGIN
         SUM(DI.SoLuong) DESC;
 END
 GO
+
+
+
+
+
+
+CREATE OR ALTER PROCEDURE GetUsersPaged (
+    @page INT,
+    @limit INT
+)
+AS
+BEGIN
+    -- 1. Input Validation and Setup
+    IF @page < 1
+        SET @page = 1;
+    IF @limit < 1
+        SET @limit = 10;
+
+    DECLARE @OffsetRows INT;
+    DECLARE @TotalCount INT;
+    DECLARE @TotalPages INT;
+
+    -- 2. Calculate Total Products and Total Pages
+    SELECT @TotalCount = COUNT(*) FROM [User];
+    SET @TotalPages = CEILING(CAST(@TotalCount AS DECIMAL(10, 2)) / @limit);
+
+    -- Force page if exceeds TotalPages
+    IF @page > @TotalPages AND @TotalPages > 0
+        SET @page = @TotalPages;
+    
+    -- Re-calculate offset after potential page adjustment
+    SET @OffsetRows = (@page - 1) * @limit;
+
+    ---------------------------------------------------
+    -- RESULT SET 1: Paged Product Data
+    ---------------------------------------------------
+    SELECT
+        *
+    FROM
+        [User]
+    ORDER BY
+        UserID
+    OFFSET
+        @OffsetRows ROWS
+    FETCH NEXT
+        @limit ROWS ONLY;
+
+    ---------------------------------------------------
+    -- RESULT SET 2: Pagination Metadata
+    ---------------------------------------------------
+    SELECT
+        @TotalCount AS TotalCount,
+        @TotalPages AS TotalPages,
+        @page AS CurrentPage,
+        @limit AS [Limit];
+
+END
+GO
+
+
+
+
+CREATE OR ALTER PROCEDURE GetProductsPaged (
+    @page INT,
+    @limit INT
+)
+AS
+BEGIN
+    -- 1. Input Validation and Setup
+    IF @page < 1
+        SET @page = 1;
+    IF @limit < 1
+        SET @limit = 10;
+
+    DECLARE @OffsetRows INT;
+    DECLARE @TotalCount INT;
+    DECLARE @TotalPages INT;
+
+    -- 2. Calculate Total Products and Total Pages
+    SELECT @TotalCount = COUNT(*) FROM SanPham;
+    SET @TotalPages = CEILING(CAST(@TotalCount AS DECIMAL(10, 2)) / @limit);
+
+    -- Force page if exceeds TotalPages
+    IF @page > @TotalPages AND @TotalPages > 0
+        SET @page = @TotalPages;
+    
+    -- Re-calculate offset after potential page adjustment
+    SET @OffsetRows = (@page - 1) * @limit;
+
+    ---------------------------------------------------
+    -- RESULT SET 1: Paged Product Data
+    ---------------------------------------------------
+    SELECT
+        *
+    FROM
+        SanPham
+    ORDER BY
+        MaSP
+    OFFSET
+        @OffsetRows ROWS
+    FETCH NEXT
+        @limit ROWS ONLY;
+
+    ---------------------------------------------------
+    -- RESULT SET 2: Pagination Metadata
+    ---------------------------------------------------
+    SELECT
+        @TotalCount AS TotalCount,
+        @TotalPages AS TotalPages,
+        @page AS CurrentPage,
+        @limit AS [Limit];
+
+END
+GO
+
+
+
+
+
+
+
+CREATE OR ALTER PROCEDURE GetOrdersPaged (
+    @page INT,
+    @limit INT
+)
+AS
+BEGIN
+    -- 1. Input Validation and Setup
+    IF @page < 1
+        SET @page = 1;
+    IF @limit < 1
+        SET @limit = 10;
+
+    DECLARE @OffsetRows INT;
+    DECLARE @TotalCount INT;
+    DECLARE @TotalPages INT;
+
+    -- 2. Calculate Total Products and Total Pages
+    SELECT @TotalCount = COUNT(*) FROM DonHang;
+    SET @TotalPages = CEILING(CAST(@TotalCount AS DECIMAL(10, 2)) / @limit);
+
+    -- Force page if exceeds TotalPages
+    IF @page > @TotalPages AND @TotalPages > 0
+        SET @page = @TotalPages;
+    
+    -- Re-calculate offset after potential page adjustment
+    SET @OffsetRows = (@page - 1) * @limit;
+
+    ---------------------------------------------------
+    -- RESULT SET 1: Paged Product Data
+    ---------------------------------------------------
+    SELECT
+        *
+    FROM
+        DonHang
+    ORDER BY
+        MaDon
+    OFFSET
+        @OffsetRows ROWS
+    FETCH NEXT
+        @limit ROWS ONLY;
+
+    ---------------------------------------------------
+    -- RESULT SET 2: Pagination Metadata
+    ---------------------------------------------------
+    SELECT
+        @TotalCount AS TotalCount,
+        @TotalPages AS TotalPages,
+        @page AS CurrentPage,
+        @limit AS [Limit];
+
+END
+GO
+
+
+
+
+
+CREATE OR ALTER PROCEDURE GetOrderListByUserIDPaged (
+    @input_UserID VARCHAR(8),
+    @page INT,
+    @limit INT
+)
+AS
+BEGIN
+    -- 1. Input Validation and Setup
+    IF @page < 1
+        SET @page = 1;
+    IF @limit < 1
+        SET @limit = 10;
+
+    DECLARE @OffsetRows INT;
+    DECLARE @TotalCount INT;
+    DECLARE @TotalPages INT;
+
+    -- 2. Calculate Total Products and Total Pages
+    SELECT @TotalCount = COUNT(*) FROM DonHang;
+    SET @TotalPages = CEILING(CAST(@TotalCount AS DECIMAL(10, 2)) / @limit);
+
+    -- Force page if exceeds TotalPages
+    IF @page > @TotalPages AND @TotalPages > 0
+        SET @page = @TotalPages;
+    
+    -- Re-calculate offset after potential page adjustment
+    SET @OffsetRows = (@page - 1) * @limit;
+
+    ---------------------------------------------------
+    -- RESULT SET 1: Paged Product Data
+    ---------------------------------------------------
+    SELECT
+        *
+    FROM
+        DonHang
+    WHERE
+        UserID = @input_UserID
+    ORDER BY
+        MaDon
+    OFFSET
+        @OffsetRows ROWS
+    FETCH NEXT
+        @limit ROWS ONLY;
+
+    ---------------------------------------------------
+    -- RESULT SET 2: Pagination Metadata
+    ---------------------------------------------------
+    SELECT
+        @TotalCount AS TotalCount,
+        @TotalPages AS TotalPages,
+        @page AS CurrentPage,
+        @limit AS [Limit];
+
+END
+GO
