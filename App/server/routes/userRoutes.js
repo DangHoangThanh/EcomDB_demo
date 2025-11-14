@@ -66,5 +66,32 @@ router.get('/:UserID', async (req, res) => {
 
 
 
+// (GET)/products/topbuy
+// Return top limit most bought products by UserID
+router.get('/:UserID/toppurchased', async (req, res) => {
+    const UserID = req.params.UserID;
+    const limit = parseInt(req.query.limit);
+    try {
+        if (!UserID || !limit) {
+            return res.status(400).send({ message: 'Missing required parameters: UserID and limit.' });
+        };
+
+        const pool = await sql.connect(dbConfig);
+        const request = pool.request();
+        request.input('p_UserID', sql.VarChar, UserID);
+        request.input('p_Limit', sql.Int, limit);
+
+        const result = await request.execute('GetTopPurchasedItems');
+        return res.json(result.recordsets[0]);
+    }
+    catch (error) {
+        console.log(error);
+        return res.status(500).send({ message: 'Error executing stored procedure.' });
+    }
+});
+
+
+
+
 
 module.exports = router;
