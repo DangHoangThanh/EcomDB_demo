@@ -1,3 +1,5 @@
+import { delay } from "../utils/delayUtils";
+
 const BASE_URL = "http://localhost:5000";
 
 /**
@@ -7,6 +9,8 @@ const BASE_URL = "http://localhost:5000";
  * @returns {Promise<object>} The parsed JSON data.
  */
 export async function apiFetch(endpoint, options = {}) {
+  // simulate API call delay
+  await delay(200);
   // Set default method to GET
   const { method, params = {}, body } = options;
 

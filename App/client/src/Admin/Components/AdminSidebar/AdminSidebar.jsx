@@ -1,6 +1,6 @@
 import "./AdminSidebar.css";
 import {Link} from "react-router-dom"
-import {FaHome, FaBox,FaReceipt } from "react-icons/fa"
+import {FaHome,FaUserCircle, FaBox,FaReceipt } from "react-icons/fa"
 
 function AdminSidebar() {
   return (
@@ -8,6 +8,9 @@ function AdminSidebar() {
       <div className="AdminSidebar-content">
         <Link to="./">
           <div id="title">Bảng điều khiển Admin</div>
+        </Link>
+        <Link to="./users">
+          <div className="tab"><FaUserCircle className="icons"/>Quản lí người dùng</div>
         </Link>
         <Link to="./products">
           <div className="tab"><FaBox className="icons"/>Quản lí sản phẩm</div>

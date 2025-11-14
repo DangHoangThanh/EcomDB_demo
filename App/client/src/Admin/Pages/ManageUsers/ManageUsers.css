@@ -1,0 +1,161 @@
+.ManageUsers-container {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+
+
+
+
+#ManageUsers-header {
+  margin: 50px;
+  background: hsl(239, 52%, 58%);
+  text-align: center;
+  border-radius: 20px;
+  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
+  padding: 20px 50px;
+  font-size: 1.5rem;
+  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+  box-sizing: border-box;
+}
+
+#ManageUsers-header h2 {
+  margin: 10px;
+}
+
+
+
+
+
+
+.admin-users-list {
+  display: flex;
+  flex-direction: column;
+  width: 95%;
+  padding: 20px 40px;
+  background: white;
+  border-radius: 20px;
+  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
+  box-sizing: border-box;
+}
+
+
+.admin-users-list header {
+  font-size: 2.5rem;
+  font-weight: bold;
+}
+
+
+.admin-users-list .ManageUsers-paging  {
+  margin-top: 10px;
+  margin-bottom: 10px;
+  text-align: center;
+}
+
+.admin-users-list .ManageUsers-paging  span {
+  margin: 10px;
+}
+
+.admin-users-list .ManageUsers-paging  button {
+  width: 5rem;
+  height: 2rem;
+  border-radius: 8px;
+  background: hsl(0, 0%, 100%);
+  border: 2px solid hsl(0, 0%, 70%);
+  transition: all 0.4s ease;
+}
+
+.admin-users-list .ManageUsers-paging  button:hover:not(:disabled) {
+  background: hsl(0, 0%, 95%);
+  border: 2px solid hsl(0, 0%, 50%);
+  box-shadow: 0 0 0 4px rgba(0, 0, 0, 0.3);
+}
+
+.admin-users-list .ManageUsers-paging  button:active {
+  background: hsl(0, 0%, 90%);
+}
+
+.admin-users-list .ManageUsers-paging button:disabled{
+  background: hsl(0, 0%, 87%);
+  border: none;
+}
+
+
+
+
+
+
+.admin-users-list #table {
+  margin-top: 20px;
+  background: rgb(199, 199, 199);
+  border-collapse: collapse;
+  overflow: hidden;
+  border-radius: 12px;
+  border: 6px solid grey;
+  box-shadow: 0 5px 20px rgba(0, 0, 0, 0.3);
+}
+
+.admin-users-list #table th:last-child,
+.admin-users-list #table td:last-child {
+  border-right: none;
+}
+
+.admin-users-list #table tr:last-child td {
+  border-bottom: none;
+}
+
+
+.admin-users-list #table th,
+.admin-users-list #table td {
+  border-bottom: 1px solid grey;
+  border-right: 1px solid lightgrey ;
+  text-align: center;
+}
+
+
+.admin-users-list #table th {
+  height: 3rem;
+  background: hsl(0, 0%, 80%);
+}
+
+.admin-users-list #table td {
+  height: 5rem;
+}
+
+.admin-users-list #table .index {
+  background: hsl(0, 0%, 70%);
+  width: 30px;
+}
+
+/* Alternate light and dark shade between each row */
+.admin-users-list #table tbody tr {
+    background-color: hsl(0, 0%, 100%); 
+}
+.admin-users-list #table tbody tr:nth-child(even) {
+    background-color: hsl(0, 0%, 95%); 
+}
+
+
+
+
+
+
+/* Overlay on top of app for when ProducForm is active */
+#TopPurchasedForm-overlay {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.3);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 999;
+}
+
+
+

@@ -1,0 +1,120 @@
+.TopPurchased-container {
+  position: relative;
+  background: rgb(230, 230, 230);
+  width: clamp(0px, 65%, 1500px);
+  height: clamp(0px, 75%, min(70vh, 70vw));
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  border-radius: 40px;
+  padding: 0;
+  transition: all 0.4s ease;
+}
+
+.TopPurchased-container header {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: absolute;
+  top: 5%;
+}
+.TopPurchased-container header #title {
+  font-size: clamp(0rem, min(3.5vh, 3.5vw), 2rem);
+  font-weight: bold;
+}
+.TopPurchased-container header #subTitle {
+  font-size: clamp(0rem, min(2vh, 2vw), 1.5rem);
+}
+
+.TopPurchased-container #table {
+  border: none;
+  border-collapse: collapse;
+}
+
+.TopPurchased-container #table th {
+  background: hsl(0, 0%, 70%);
+  color: hsl(0, 0%, 95%);
+  padding: 10px 20px;
+}
+
+.TopPurchased-container #table .index {
+  background: hsl(0, 0%, 86%);
+  color: hsl(0, 0%, 40%);
+}
+
+.TopPurchasedRow {
+  transition: all 0.4s ease;
+  height: 4rem;
+  background: rgb(243, 243, 243);
+}
+.TopPurchasedRow:hover {
+  box-shadow: inset 0 0 35px hsl(0, 0%, 64%);
+  z-index: 10;
+}
+
+.TopPurchasedRow td {
+  padding: 0 20px 0 20px;
+  height: 4rem;
+  text-align: center;
+  vertical-align: center;
+}
+
+.TopPurchasedRow #index {
+  color: hsl(0, 0%, 31%);
+  font-weight: bold;
+  padding: 0px 8px;
+}
+
+.TopPurchasedRow #image {
+  background: rgba(0, 0, 0, 0.2);
+}
+
+.TopPurchasedRow #image img {
+  height: 100%;
+}
+
+.TopPurchasedRow #name {
+  font-weight: bold;
+  text-align: start;
+}
+
+.TopPurchasedRow #count {
+  font-weight: bold;
+}
+
+.TopPurchasedRow #price {
+  font-weight: bold;
+  color: rgb(5, 150, 105);
+}
+
+
+
+#TopPurchased-cancel {
+  position: absolute;
+  top: 0px;
+  right: 40px;
+  width: 9rem;
+  height: 3rem;
+  border: none;
+  background: rgb(175, 0, 0);
+  border-radius: 0px 0px 20px 20px;
+  color: white;
+  font-size: 1rem;
+  font-weight: bold;
+  transition: all 0.4s ease;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+}
+#TopPurchased-cancel * {
+  color: white;
+}
+#TopPurchased-cancel:hover {
+  background: rgb(154, 0, 0);
+  box-shadow: 0 0 30px 5px rgba(255, 0, 0, 0.3);
+}
+#TopPurchased-cancel:active {
+  background: rgb(134, 0, 0);
+}

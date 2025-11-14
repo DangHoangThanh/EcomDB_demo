@@ -4,6 +4,7 @@ import PublicLayout from "./PublicLayout";
 import Shop from "./Pages/Shop";
 
 import AdminLayout from "./Admin/AdminLayout";
+import ManageUsers from "./Admin/Pages/ManageUsers/ManageUsers";
 import ManageProducts from "./Admin/Pages/ManageProducts/ManageProducts";
 import ManageOrders from "./Admin/Pages/ManageOrders/ManageOrders";
 
@@ -20,6 +21,7 @@ function App() {
         <Routes>
           {/* === ADMIN ROUTES === */}
           <Route path="/admin" element={<AdminLayout />}>
+            <Route path="users" element={<ManageUsers />} />
             <Route path="products" element={<ManageProducts />} />
             <Route path="orders" element={<ManageOrders />} />
           </Route>
