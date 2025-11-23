@@ -97,8 +97,7 @@
 }
 
 .ManageOrders-table-container table td {
-  border-right: 1px solid hsl(34, 50%, 85%);
-  border-bottom: 1px solid hsl(34, 50%, 90%);
+  border-bottom: 2px solid hsl(34, 50%, 90%);
   height: 5rem;
 }
 

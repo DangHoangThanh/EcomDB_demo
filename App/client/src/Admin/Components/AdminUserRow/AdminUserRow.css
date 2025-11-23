@@ -1,11 +1,6 @@
 .AdminUserRow {
   transition: all 0.4s ease;
 }
-  .AdminUserRow:hover {
-  box-shadow: inset 0 0 35px hsl(0, 0%, 64%);
-  z-index: 10;
-}
-
 
 .AdminUserRow td {
   padding: 0 20px 0 20px;
@@ -18,23 +13,85 @@
 
 .AdminUserRow #user span {
   display:flex;
-  justify-content: start;
+  justify-content: center;
   align-items: center;
+  font-weight: bold;
+}
+
+.gender {
+  display: inline-block;
+  padding: 8px 16px;
+  border-radius: 25px;
+
+  font-weight: bold;
+
+  min-width: 80px;
+  text-align: center;
+  color: white;
+}
+
+.gender.Nu {
+  background-color: hsl(347, 60%, 60%);
+}
+
+.gender.Nam {
+  background-color: hsl(216, 60%, 60%);
+}
+
+
+.AdminUserRow td:nth-child(4) {
+  color: hsl(0, 50%, 50%);
+  font-weight: bold;
+}
+
+
+.AdminUserRow td:nth-child(6) {
+  padding: 0;
+}
+
+
+.password {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 100%;
+
+  background: hsla(0, 0%, 85%, 0.8);
+  color: rgb(85, 85, 85);
+  cursor: pointer;
+}
+
+.password.visible {
+  color: white;
+  background: hsl(0, 45%, 55%);
+}
+
+
+
+.AdminUserRow td:nth-child(7) {
+  padding: 0px;
 }
 
 
 
 
 
-.AdminUserRow #actions  button{
-  padding: 15px;
 
-  border-radius: 10px;
+.action-button {
+  width: 7rem;
+
+  border-radius: 95px;
   border: none;
-  background: hsl(204, 100%, 47%);
   
   color: white;
-  font-weight: bold;
   
   cursor: pointer;
+}
+
+.action-button.orders {
+  background: hsl(33, 40%, 63%);
+}
+.action-button.topPurchased {
+  background: hsl(88, 50%, 45%);
 }

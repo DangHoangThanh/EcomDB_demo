@@ -89,7 +89,7 @@
 
 .admin-users-list #table {
   margin-top: 20px;
-  background: rgb(199, 199, 199);
+  background: hsl(239, 50%, 85%);
   border-collapse: collapse;
   overflow: hidden;
   border-radius: 12px;
@@ -109,15 +109,13 @@
 
 .admin-users-list #table th,
 .admin-users-list #table td {
-  border-bottom: 1px solid grey;
-  border-right: 1px solid lightgrey ;
   text-align: center;
 }
 
 
 .admin-users-list #table th {
   height: 3rem;
-  background: hsl(0, 0%, 80%);
+  background: hsl(239, 50%, 90%);
 }
 
 .admin-users-list #table td {
@@ -125,7 +123,7 @@
 }
 
 .admin-users-list #table .index {
-  background: hsl(0, 0%, 70%);
+  background: hsl(239, 40%, 75%);
   width: 30px;
 }
 

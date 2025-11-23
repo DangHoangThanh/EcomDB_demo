@@ -45,7 +45,7 @@ function ManageUsers() {
   const [CurrentUser, setCurrentUser] = useState(null);
 
   // Open form with mode "add", "edit", "delete"
-  const openForm = (mode, currentUser = null) => {
+  const openForm = (currentUser = null) => {
     setCurrentUser(currentUser);
     setIsFormVisible(true);
   };
@@ -68,9 +68,9 @@ function ManageUsers() {
               <th className="index">#</th>
               <th>Người dùng</th>
               <th>Giới tính</th>
+              <th>Số điện thoại</th>
               <th>Email</th>
               <th>Mật khẩu</th>
-              <th>Số điện thoại</th>
               <th>Thao tác</th>
             </tr>
           </thead>
@@ -81,9 +81,8 @@ function ManageUsers() {
                 <AdminUserRow
                   key={i}
                   index={index}
-                  {...item}
-                  onTopPurchased={() => openForm("edit", item)}
-                  onDelete={() => openForm("delete", item)}
+                  user={item}
+                  onTopPurchased={() => openForm(item)}
                 />
               );
             })}

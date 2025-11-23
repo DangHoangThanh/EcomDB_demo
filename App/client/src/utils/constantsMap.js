@@ -5,3 +5,8 @@ export const shipStatusMap = {
     'Delivered': 'Giao thành công',
     'Cancelled': 'Đã hủy',
 };
+
+export const genderMap = {
+    'Nam': 'Nam',
+    'Nu': 'Nữ',
+}

@@ -48,16 +48,13 @@
   height: 4rem;
   background: rgb(243, 243, 243);
 }
-.TopPurchasedRow:hover {
-  box-shadow: inset 0 0 35px hsl(0, 0%, 64%);
-  z-index: 10;
-}
 
 .TopPurchasedRow td {
   padding: 0 20px 0 20px;
   height: 4rem;
   text-align: center;
   vertical-align: center;
+  border-bottom: 1px solid lightgrey;
 }
 
 .TopPurchasedRow #index {
@@ -81,6 +78,7 @@
 
 .TopPurchasedRow #count {
   font-weight: bold;
+  color: hsl(0, 60%, 50%);
 }
 
 .TopPurchasedRow #price {
@@ -113,7 +111,6 @@
 }
 #TopPurchased-cancel:hover {
   background: rgb(154, 0, 0);
-  box-shadow: 0 0 30px 5px rgba(255, 0, 0, 0.3);
 }
 #TopPurchased-cancel:active {
   background: rgb(134, 0, 0);
