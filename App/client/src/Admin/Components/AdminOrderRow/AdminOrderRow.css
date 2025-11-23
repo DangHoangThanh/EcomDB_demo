@@ -1,0 +1,55 @@
+.AdminOrderRow tr {
+  height: 4rem;
+}
+
+.AdminOrderRow td {
+  text-align: center;
+  padding: 10px 20px;
+}
+
+.AdminOrderRow td:first-child {
+  background: lightgrey;
+}
+.AdminOrderRow td:nth-child(5) {
+  font-weight: bold;
+  color: green;
+}
+
+.AdminOrderRow td img {
+  height: 100%;
+}
+
+.status {
+  display: inline-block;
+  padding: 8px 16px;
+  border-radius: 25px;
+
+  font-weight: bold;
+
+  min-width: 80px;
+  text-align: center;
+}
+
+/* Status colors */
+
+.status.Cancelled {
+  background: hsl(0, 63%, 56%);
+  color: white;
+}
+.status.Pending {
+  background: hsl(0, 0%, 71%);
+  color: white;
+}
+.status.Processing {
+  background: hsl(214, 75%, 60%);
+  color: white;
+}
+.status.Shipping {
+  background: hsl(49, 85%, 50%);
+  color: white;
+}
+
+.status.Delivered {
+  background: hsl(101, 63%, 46%);
+  color: white;
+}

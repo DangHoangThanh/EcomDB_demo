@@ -10,26 +10,46 @@ const dbConfig = require('../dbConfig');
 
 
 
-
 // (GET)/order/orders/
 // Return orders with paging
 router.get('/orders/', async (req, res) => {
     const page = parseInt(req.query.page) || 1
     const limit = parseInt(req.query.limit) || 10
+    
+    // Ensure the connection pool and request object are declared outside the try block 
+    // or handle the connection management appropriately.
+    let pool; 
     try {
-        const pool = await sql.connect(dbConfig);
-        const request = pool.request(); 
+        pool = await sql.connect(dbConfig);
+        let request = pool.request(); 
 
         request.input('page', sql.Int, page)
         request.input('limit', sql.Int, limit)
 
         const result = await request.execute('GetOrdersPaged');
 
+        // Raw orders
         const orders = result.recordsets[0];
         const pagination = result.recordsets[1][0];
 
+        // Orders with product list
+        const ordersWithContent = await Promise.all(orders.map(async (order) => {
+            const contentRequest = pool.request(); 
+            
+            contentRequest.input('input_MaDon', sql.VarChar, order.MaDon);
+            const contentResult = await contentRequest.execute('GetOrderContentByMaDon');
+
+            const productList = contentResult.recordsets[0];
+
+            return {
+                ...order,
+                productList: productList
+            };
+        }));
+
+
         const reponseContent = {
-            orders: orders,
+            orders: ordersWithContent,
             pagination: pagination
         } 
 
@@ -40,7 +60,6 @@ router.get('/orders/', async (req, res) => {
         return res.status(500).send({ message: 'Error executing get orders paged.' });
     }
 });
-
 
 
 

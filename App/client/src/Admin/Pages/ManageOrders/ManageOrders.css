@@ -1,0 +1,130 @@
+.ManageOrders-container {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+#ManageOrders-header {
+  margin: 50px;
+  background: hsl(34, 50%, 70%);
+  text-align: center;
+  border-radius: 20px;
+  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
+  padding: 20px 50px;
+  font-size: 1.5rem;
+  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+  box-sizing: border-box;
+}
+
+#ManageOrders-header h2 {
+  margin: 10px;
+}
+
+.ManageOrders-table-container {
+  display: flex;
+  flex-direction: column;
+  width: 95%;
+  padding: 20px 40px;
+  background: white;
+  border-radius: 20px;
+  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
+  box-sizing: border-box;
+}
+
+.ManageOrders-table-container header {
+  font-size: 2.5rem;
+  font-weight: bold;
+}
+
+.ManageOrders-table-container .ManageOrders-paging {
+  margin-top: 10px;
+  margin-bottom: 10px;
+  text-align: center;
+}
+
+.ManageOrders-table-container .ManageOrders-paging span {
+  margin: 10px;
+}
+
+.ManageOrders-table-container .ManageOrders-paging button {
+  width: 5rem;
+  height: 2rem;
+  border-radius: 8px;
+  background: hsl(0, 0%, 100%);
+  border: 2px solid hsl(0, 0%, 70%);
+  transition: all 0.4s ease;
+}
+
+.ManageOrders-table-container .ManageOrders-paging button:hover:not(:disabled) {
+  background: hsl(0, 0%, 95%);
+  border: 2px solid hsl(0, 0%, 50%);
+  box-shadow: 0 0 0 4px rgba(0, 0, 0, 0.3);
+}
+
+.ManageOrders-table-container .ManageOrders-paging button:active {
+  background: hsl(0, 0%, 90%);
+}
+
+.ManageOrders-table-container .ManageOrders-paging button:disabled {
+  background: hsl(0, 0%, 87%);
+  border: none;
+}
+
+.ManageOrders-table-container table {
+  margin-top: 20px;
+  background: hsl(34, 50%, 87%);
+  border-collapse: collapse;
+  overflow: hidden;
+  border-radius: 12px;
+  border: 6px solid red;
+  box-shadow: 0 5px 20px rgba(0, 0, 0, 0.3);
+}
+
+.ManageOrders-table-container table th:last-child,
+.ManageOrders-table-container table td:last-child {
+  border-right: none;
+}
+
+.ManageOrders-table-container table tr:last-child td {
+  border-bottom: none;
+}
+
+.ManageOrders-table-container table th {
+  border-right: 1px solid hsl(34, 50%, 75%);
+  height: 3rem;
+  background: hsl(34, 50%, 80%);
+}
+
+.ManageOrders-table-container table td {
+  border-right: 1px solid hsl(34, 50%, 85%);
+  border-bottom: 1px solid hsl(34, 50%, 90%);
+  height: 5rem;
+}
+
+.ManageOrders-table-container table .index {
+  background: hsl(34, 30%, 70%);
+  width: 30px;
+}
+
+/* Alternate light and dark shade between each row */
+.ManageOrders-table-container table tbody tr {
+  background-color: hsl(0, 0%, 100%);
+}
+.ManageOrders-table-container table tbody tr:nth-child(even) {
+  background-color: hsl(0, 0%, 95%);
+}
+
+.action-button {
+  padding: 10px 20px;
+  border-radius: 10px;
+  border: none;
+  cursor: pointer;
+  margin-left: 10px;
+  margin-top: 2px;
+}
+
+.action-button.edit {
+  background: rgb(0, 91, 196);
+  color: white;
+}
