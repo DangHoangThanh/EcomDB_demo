@@ -215,64 +215,147 @@ BEGIN
 END
 GO
 
+
+
+
+CREATE OR ALTER PROCEDURE EditSanPham
+    @MaSP       VARCHAR(8),
+    @TenSP      NVARCHAR(150),
+    @GiaTien    DECIMAL(12,2),
+    @MoTa       NVARCHAR(1000) = NULL,
+    @LoaiSP     NVARCHAR(30)
+AS
+BEGIN
+    -- 1. Thiết lập NOCOUNT ON để tránh gửi các thông báo không cần thiết về client
+    SET NOCOUNT ON;
+
+    -- 2. Kiểm tra xem sản phẩm có tồn tại không
+    IF NOT EXISTS (SELECT 1 FROM SanPham WHERE MaSP = @MaSP)
+    BEGIN
+        -- Báo lỗi nếu sản phẩm không tồn tại
+        RAISERROR(N'Lỗi: Không tìm thấy sản phẩm có mã %s để cập nhật.', 16, 1, @MaSP);
+        RETURN 0;
+    END
+
+    -- 3. Thực hiện lệnh cập nhật (UPDATE)
+    UPDATE SanPham
+    SET
+        TenSP = @TenSP,
+        GiaTien = @GiaTien,
+        MoTa = @MoTa,
+        LoaiSP = @LoaiSP
+    WHERE
+        MaSP = @MaSP;
+
+    -- 4. Kiểm tra xem có bao nhiêu dòng đã được cập nhật
+    IF @@ROWCOUNT > 0
+    BEGIN
+        RETURN 1;
+    END
+    ELSE
+    BEGIN
+        SELECT N'Không có thay đổi nào được thực hiện.' AS ThongBao;
+        RETURN 1;
+    END
+
+END
+GO
+
+
+
+
+
+
+CREATE OR ALTER PROCEDURE DeleteSanPham
+    @MaSP VARCHAR(8)
+AS
+BEGIN
+    SET NOCOUNT ON;
+
+    BEGIN TRANSACTION;
+
+    -- 1. Kiểm tra xem sản phẩm có tồn tại không
+    IF NOT EXISTS (SELECT 1 FROM SanPham WHERE MaSP = @MaSP)
+    BEGIN
+        -- Nếu không tồn tại, ROLLBACK
+        IF @@TRANCOUNT > 0
+            ROLLBACK TRANSACTION;
+
+        RAISERROR(N'Lỗi: Không tìm thấy sản phẩm có mã %s để xóa.', 16, 1, @MaSP);
+        RETURN 0;
+    END
+
+    -- 2. Thực hiện xóa
+    DELETE FROM SanPham
+    WHERE MaSP = @MaSP;
+
+    -- 3. Kiểm tra số dòng đã được xóa
+    IF @@ROWCOUNT > 0
+    BEGIN
+        -- Xóa thành công, COMMIT
+        COMMIT TRANSACTION;
+        RETURN 1;
+    END
+    ELSE
+    BEGIN
+        IF @@TRANCOUNT > 0
+            ROLLBACK TRANSACTION;
+            
+        RAISERROR(N'Lỗi: Xóa sản phẩm có mã %s thất bại.', 16, 1, @MaSP);
+        RETURN 0;
+    END
+END
+GO
+
+
+
+
+
 -- ==========================================
 -- TEST DỮ LIỆU
 -- ==========================================
--- 1. Thêm sản phẩm ĐỒ TƯƠI SỐNG
-EXEC Add_DoTuoiSong 
-    @TenSP     = N'Thịt bò Úc nhập khẩu',
-    @GiaTien   = 150000.00,
-    @MoTa      = N'Thịt bò tươi ngon, nhập khẩu trực tiếp từ Úc',
-    @NhietDo   = 5.0,
-    @XuatXu    = N'Úc',
-    @HanSuDung = '2025-11-25';  
-
--- 2. Thêm sản phẩm ĐỒ GIA DỤNG
-EXEC Add_DoGiaDung 
-    @TenSP      = N'Bình đun siêu tốc Philips HD4646',
-    @GiaTien    = 490000.00,
-    @MoTa       = N'Công suất 1.8L, giữ nhiệt tốt, inox 304',
-    @ChatLieu   = N'Inox 304',
-    @BaoHanh    = N'24 tháng',
-    @ThuongHieu = N'Philips';
-
--- 3. Thêm sản phẩm THỰC PHẨM ĐÓNG HỘP
-EXEC Add_ThucPhamDongHop 
-    @TenSP     = N'Cá ngừ hộp 3 Miền',
-    @GiaTien   = 32000.00,
-    @MoTa      = N'Hộp thiếc 150g, ngon tuyệt đối',
-    @ThanhPhan = N'Cá ngừ, dầu ăn, muối, gia vị',
-    @NhaSX     = N'Công ty Vissan',
-    @HanSuDung = '2027-06-30';  
-
--- 4. Thêm vài sản phẩm KHÁC (không thuộc 3 bảng con – để chứng minh LoaiSP linh hoạt)
-EXEC InsertSanPham N'Áo thun cotton Uniqlo', 199000, N'Chất liệu mềm mại, thấm hút tốt', N'Thời trang';
-EXEC InsertSanPham N'Túi xách Charles & Keith', 1290000, N'Da PU cao cấp, sang trọng', N'Phụ kiện thời trang';
-EXEC InsertSanPham N'Dầu gội Head & Shoulders 850ml', 165000, N'Ngăn gàu hiệu quả', N'Chăm sóc cá nhân';
-
-
 
 
 -- Thêm sản phẩm tươi sống
-EXEC Add_DoTuoiSong 'Cà Chua Đà Lạt', 25000.00, 'Cà chua bi Đà Lạt, dùng làm salad', 5.0, 'VN', '2025-11-25';
-EXEC Add_DoTuoiSong 'Gạo Thơm', 120000.00, 'Bao 5kg gạo thơm đặc sản', 5.0, 'VN', '2025-11-25';
-EXEC Add_DoTuoiSong 'Khoai Tay Đà Lạt', 42000.00, 'Túi 1kg khoai tây vàng tươi', 5.0, 'VN', '2025-11-25';
-EXEC Add_DoTuoiSong 'Táo Đỏ Mỹ', 35000.00, 'Táo Galamus New Zealand, ngon ngọt, giòn tan', 5.0, 'VN', '2025-11-25';
-EXEC Add_DoTuoiSong 'Thịt Bò Phi Lê', 199000.00, 'Thịt bò Úc cắt lát dày 1.5cm, tươi mới', 5.0, 'VN', '2025-11-25';
-EXEC Add_DoTuoiSong 'Trứng Gà Ta', 38000.00, 'Vỉ 10 quả trứng gà ta, đảm bảo chất lượng', 5.0, 'VN', '2025-11-25';
+EXEC Add_DoTuoiSong N'Cà Chua Đà Lạt', 25000.00, N'Cà chua bi Đà Lạt, dùng làm salad', 5.0, N'VN', '2025-11-25';
+EXEC Add_DoTuoiSong N'Gạo Thơm', 120000.00, N'Bao 5kg gạo thơm đặc sản', 5.0, N'VN', '2025-11-25';
+EXEC Add_DoTuoiSong N'Khoai Tay Đà Lạt', 42000.00, N'Túi 1kg khoai tây vàng tươi', 5.0, N'VN', '2025-11-25';
+EXEC Add_DoTuoiSong N'Táo Đỏ Mỹ', 35000.00, N'Táo Galamus New Zealand, ngon ngọt, giòn tan', 5.0, N'VN', '2025-11-25';
+EXEC Add_DoTuoiSong N'Thịt Bò Phi Lê', 199000.00, N'Thịt bò Úc cắt lát dày 1.5cm, tươi mới', 5.0, N'VN', '2025-11-25';
+EXEC Add_DoTuoiSong N'Trứng Gà Ta', 38000.00, N'Vỉ 10 quả trứng gà ta, đảm bảo chất lượng', 5.0, N'VN', '2025-11-25';
+EXEC Add_DoTuoiSong N'Dưa Leo Baby', 18000.00, N'Dưa leo giống Nhật, giòn ngọt, tươi mát', 4.0, N'VN', '2025-11-30';
+EXEC Add_DoTuoiSong N'Cải Bó Xôi', 30000.00, N'Rau bina tươi, giàu sắt và vitamin', 3.0, N'VN', '2025-11-28';
+EXEC Add_DoTuoiSong N'Sữa Tươi Nguyên Kem', 48000.00, N'Hộp 1 lít sữa tươi tiệt trùng, béo ngậy', 5.0, N'Úc', '2026-03-15';
+EXEC Add_DoTuoiSong N'Cá Hồi Fillet', 350000.00, N'Miếng cá hồi Na Uy tươi, đã lóc xương', 2.0, N'Na Uy', '2025-11-27';
+EXEC Add_DoTuoiSong N'Nước Cam Tươi', 55000.00, N'Chai 1 lít nước cam ép 100%, không đường', 5.0, N'VN', '2025-12-05';
+EXEC Add_DoTuoiSong N'Chuối Tây', 20000.00, N'Nải chuối Tây chín vàng, cung cấp kali', 5.0, N'VN', '2025-11-29';
+EXEC Add_DoTuoiSong N'Thịt Heo Ba Rọi', 115000.00, N'Thịt heo sạch, dùng để kho hoặc chiên', 3.0, N'VN', '2025-11-26';
 
 -- Thêm sản phẩm đồ gia dụng
-EXEC Add_DoGiaDung 'Kem Đánh Răng', 28000.00, 'Tuýp 180g kem đánh răng tạo bọt', 'không', '12 tháng', 'PS';
-EXEC Add_DoGiaDung 'Giày Vệ Sinh', 55000.00, 'Gói lớn 10 cuộn giấy 3 lớp', 'Giấy', '12 tháng', 'GiayTot';
+EXEC Add_DoGiaDung N'Kem Đánh Răng', 28000.00, N'Tuýp 180g kem đánh răng tạo bọt', N'không', N'12 tháng', N'PS';
+EXEC Add_DoGiaDung N'Giày Vệ Sinh', 55000.00, N'Gói lớn 10 cuộn giấy 3 lớp', N'Giấy', N'12 tháng', N'GiayTot';
+EXEC Add_DoGiaDung N'Nước Lau Sàn', 35000.00, N'Chai 1 lít, hương hoa hạ, sạch khuẩn', N'Chất tẩy rửa', N'24 tháng', N'Sunlight';
+EXEC Add_DoGiaDung N'Dầu Gội Đầu', 89000.00, N'Chai 450ml, chiết xuất bồ kết, ngăn rụng tóc', N'Thảo dược', N'36 tháng', N'Clear';
+EXEC Add_DoGiaDung N'Bàn Chải Đánh Răng', 25000.00, N'Bộ 2 cái, lông mềm mại, bảo vệ nướu', N'Nhựa', N'12 tháng', N'Colgate';
+EXEC Add_DoGiaDung N'Nước Rửa Chén', 42000.00, N'Chai lớn 800g, hương chanh, siêu sạch', N'Chất tẩy rửa', N'24 tháng', N'Mỹ Hảo';
+EXEC Add_DoGiaDung N'Khăn Giấy Ướt', 15000.00, N'Gói 100 tờ, không cồn, an toàn cho da em bé', N'Vải không dệt', N'18 tháng', N'Bobby';
+EXEC Add_DoGiaDung N'Pin AA', 70000.00, N'Vỉ 4 viên pin tiểu, năng lượng cao', N'Pin kiềm', N'36 tháng', N'Energizer';
 
 -- Thêm thực phẩm đóng hộp
-EXEC Add_ThucPhamDongHop 'Cà Phê Đen', 65000.00, 'Gói 500g cà phê rang xay nguyên chất', 'Cà phê', 'Công ty CaPheDen', '2026-11-25';
-EXEC Add_ThucPhamDongHop 'Bánh Mì Sandwich', 18000.00, 'Túi 10 lát bánh mì nguyên cám', 'Bột mì', 'Công ty NewBread', '2026-11-25';
-EXEC Add_ThucPhamDongHop 'Đường Cát Trắng', 22500.00, 'Túi 1kg đường tinh luyện', 'Đường', 'Công ty DuongMia', '2026-11-25';
-EXEC Add_ThucPhamDongHop 'Nước Mắm Nam Ngư', 45000.00, 'Chai 750ml nước mắm cá cơm', 'Cá cơm, muối', 'Công ty Nuoc Mam Ngon', '2026-11-25';
-EXEC Add_ThucPhamDongHop 'Muối I-ốt', 9900.00, 'Gói 500g muối i-ốt', 'Muối, Iot', 'Công ty MuoiBien', '2026-11-25';
-EXEC Add_ThucPhamDongHop 'Bia Sài Gòn', 15000.00, 'Lon bia 330ml, uống lạnh ngon hơn', 'Nước, Lúa mạch', 'Công ty Bia So 1', '2026-11-25';
-EXEC Add_ThucPhamDongHop 'Sữa Tươi Không Đường', 32000.00, 'Hộp 1 lít sữa tươi thanh trùng', 'Sữa', 'Công ty Sua VN', '2026-11-25';
+EXEC Add_ThucPhamDongHop N'Cà Phê Đen', 65000.00, N'Gói 500g cà phê rang xay nguyên chất', N'Cà phê', N'Công ty CaPheDen', '2026-11-25';
+EXEC Add_ThucPhamDongHop N'Bánh Mì Sandwich', 18000.00, N'Túi 10 lát bánh mì nguyên cám', N'Bột mì', N'Công ty NewBread', '2026-11-25';
+EXEC Add_ThucPhamDongHop N'Đường Cát Trắng', 22500.00, N'Túi 1kg đường tinh luyện', N'Đường', N'Công ty DuongMia', '2026-11-25';
+EXEC Add_ThucPhamDongHop N'Nước Mắm Nam Ngư', 45000.00, N'Chai 750ml nước mắm cá cơm', N'Cá cơm, muối', N'Công ty Nuoc Mam Ngon', '2026-11-25';
+EXEC Add_ThucPhamDongHop N'Muối I-ốt', 9900.00, N'Gói 500g muối i-ốt', N'Muối, Iot', N'Công ty MuoiBien', '2026-11-25';
+EXEC Add_ThucPhamDongHop N'Bia Sài Gòn', 15000.00, N'Lon bia 330ml, uống lạnh ngon hơn', N'Nước, Lúa mạch', N'Công ty Bia So 1', '2026-11-25';
+EXEC Add_ThucPhamDongHop N'Sữa Tươi Không Đường', 32000.00, N'Hộp 1 lít sữa tươi thanh trùng', N'Sữa', N'Công ty Sua VN', '2026-11-25';
+EXEC Add_ThucPhamDongHop N'Mì Tôm Hảo Hảo', 80000.00, N'Thùng 30 gói mì tôm chua cay, nổi tiếng Việt Nam', N'Bột mì, gia vị', N'Acecook', '2026-06-20';
+EXEC Add_ThucPhamDongHop N'Cháo Yến Mạch', 95000.00, N'Hộp 500g yến mạch cán dẹt, tốt cho tim mạch', N'Yến mạch', N'Quaker', '2027-01-10';
+EXEC Add_ThucPhamDongHop N'Dầu Ăn Cái Lân', 58000.00, N'Chai 2 lít dầu ăn thực vật, chiên xào tiện lợi', N'Dầu cọ', N'Công ty Calan', '2026-09-01';
+EXEC Add_ThucPhamDongHop N'Thịt Hộp SPAM', 120000.00, N'Lon 340g thịt nguội đóng hộp, tiện lợi', N'Thịt heo, muối', N'Hormel Foods', '2027-05-20';
+EXEC Add_ThucPhamDongHop N'Bánh Quy Bơ', 75000.00, N'Hộp thiếc 400g bánh quy bơ Đan Mạch', N'Bột mì, bơ', N'Kjeldsens', '2026-12-12';
+EXEC Add_ThucPhamDongHop N'Trà Xanh Không Đường', 20000.00, N'Chai 500ml trà xanh, giải khát, ít calo', N'Trà xanh', N'Suntory', '2026-04-18';
+EXEC Add_ThucPhamDongHop N'Tương Ớt Chin-su', 18000.00, N'Chai 250g tương ớt, vị cay dịu, đậm đà', N'Ớt, tỏi', N'Masancap', '2026-10-05';
 
 
 -- ==========================================

@@ -6,8 +6,10 @@ import { getAllProducts } from "../../../api/productService";
 
 import AdminItemRow from "../../Components/AdminItemRow/AdminItemRow";
 import ProductForm from "../../Components/ProductForm/ProductForm";
+import LoadingOverlay from "../../../Components/LoadingOverlay/LoadingOverlay";
 
 function ManageProducts() {
+  const [loading, setLoading] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
   const [products, setProducts] = useState([]);
@@ -16,11 +18,12 @@ function ManageProducts() {
 
   // Fetch products method (from all product)
   const fetchProducts = async (page = 1, limit = 20) => {
+    setLoading(true);
     try {
       const response = await getAllProducts(page, limit);
       const resProducts = response.products;
       const resPagination = response.pagination;
-
+      
       setProducts(resProducts);
       setTotalProducts(resPagination.TotalCount);
       setTotalPages(resPagination.TotalPages);
@@ -28,6 +31,7 @@ function ManageProducts() {
       console.log(error);
       alert("Fetch products failed");
     }
+    setLoading(false);
   };
 
   // Fetch new page upon page change
@@ -49,43 +53,18 @@ function ManageProducts() {
 
   return (
     <div className="ManageProducts-container">
+      {loading && <LoadingOverlay/>}
       <div id="ManageProducts-header">
         <h2 style={{ color: "white" }}>📦Quản lí sản phẩm</h2>
       </div>
 
-      <div className="admin-products-list">
+      <div className="ManageProducts-table-container">
         <header>Danh sách các sản phẩm</header>
 
         <div>Tổng cộng {totalProducts} sản phẩm</div>
 
-        <div className="ManageProducts-filter">
-          <div className="category">
-            <h3>Phân loại:</h3>
-            <select>
-              <option value="" disabled>
-                Lọc theo phân loại
-              </option>
-              <option value="All">Tất cả</option>
-              <option value="Meats">Meats</option>
-              <option value="Vegetables">Vegetables</option>
-              <option value="Others">Others</option>
-            </select>
-          </div>
 
-          <div className="price">
-            <h3>Giá thành:</h3>
-            <select>
-              <option value="" disabled>
-                Sắp xếp theo giá
-              </option>
-              <option value="Default">Mặc định</option>
-              <option value="Ascending">Tăng dần</option>
-              <option value="Descending">Giảm dần</option>
-            </select>
-          </div>
-        </div>
-
-        <table id="table">
+        <table>
           <thead>
             <tr>
               <th className="index">#</th>
@@ -148,6 +127,7 @@ function ManageProducts() {
             currentItem={formCurrentItem}
             onCancel={() => setIsFormVisible(false)} // Pass a function to close the form
             onSuccess={() => fetchProducts(currentPage, limit)}
+            setLoading={(state) => setLoading(state)}
           />
         </div>
       )}

@@ -157,7 +157,6 @@
 }
 #ProductForm-cancel:hover {
   background: rgb(154, 0, 0);
-  box-shadow: 0 0 30px 5px rgba(255, 0, 0, 0.3);
 }
 #ProductForm-cancel:active {
   background: rgb(134, 0, 0);
@@ -183,7 +182,6 @@
 }
 .btn-add:hover {
   background: hsl(110, 69%, 35%);
-  box-shadow: 0 0 30px 5px hsla(110, 100%, 50%, 0.3);
 }
 .btn-add:active {
   background: hsl(110, 69%, 30%);
@@ -194,7 +192,6 @@
 }
 .btn-edit:hover {
   background: hsl(219, 100%, 35%);
-  box-shadow: 0 0 30px 5px hsla(219, 100%, 50%, 0.3);
 }
 .btn-edit:active {
   background: hsl(219, 100%, 30%);
@@ -205,7 +202,6 @@
 }
 .btn-delete:hover {
   background: hsl(0, 100%, 35%);
-  box-shadow: 0 0 30px 5px hsla(0, 100%, 50%, 0.3);
 }
 .btn-delete:active {
   background: hsl(0, 100%, 30%);

@@ -2,13 +2,13 @@ import { useEffect, useState } from "react";
 import "./ProductForm.css";
 import DefaultImage from "../../../assets/placeholder-image.png";
 import { FiX} from "react-icons/fi";
-// import {
-//   createProduct,
-//   updateProduct,
-//   deleteProduct,
-// } from "../../../api/productService";
+import {
+  newProduct,
+  editProduct,
+  deleteProduct
+} from "../../../api/productService";
 
-function ProductForm({ mode, currentItem = null, onCancel, onSuccess }) {
+function ProductForm({ mode, currentItem = null, onCancel, onSuccess, setLoading }) {
   // Properties of form
   const [formData, setFormData] = useState({
     TenSP: "",
@@ -57,6 +57,7 @@ function ProductForm({ mode, currentItem = null, onCancel, onSuccess }) {
   // Handle Submit based on form mode
   const handleSubmit = async (e) => {
     e.preventDefault(); // Prevent default browser form submission
+    setLoading(true);
 
     try {
       // let response;
@@ -65,24 +66,37 @@ function ProductForm({ mode, currentItem = null, onCancel, onSuccess }) {
         // 1. ADD MODE: Call the API to create a new product
         console.log("Submitting new product...");
 
-
+        const productInfo = {
+          TenSP: formData.TenSP,
+          GiaTien: formData.GiaTien,
+          MoTa: formData.MoTa,
+          LoaiSP: formData.LoaiSP
+        };
+  
+        const response = await newProduct(productInfo);
 
         alert("Product created successfully!");
       } else if (mode === "edit") {
         // 2. EDIT MODE: Call the API to update the existing product
         // productId required
 
-        // const productId = currentItem.MaSP;
-
+        const MaSP = currentItem.MaSP;
+        const productInfo = {
+          TenSP: formData.TenSP,
+          GiaTien: formData.GiaTien,
+          MoTa: formData.MoTa,
+          LoaiSP: formData.LoaiSP
+        };
+  
+        const response = await editProduct(MaSP, productInfo);
 
         alert("Product updated successfully!");
       } else if (mode === "delete") {
         // 3. DELETE MODE: Call the API to delete the existing product
         //  productId required
 
-        // const productId = currentItem.MaSP;
-        // console.log(`Deleting product ${productId}...`);
-        // deleteProduct(productId);
+        const MaSP = currentItem.MaSP;
+        const response = await deleteProduct(MaSP);
 
         alert("Product Deleted successfully!");
       }
@@ -95,6 +109,8 @@ function ProductForm({ mode, currentItem = null, onCancel, onSuccess }) {
       console.error("Submission failed:", error);
       alert("Error saving product. Check the console for details.");
     }
+
+    setLoading(false);
   };
 
   

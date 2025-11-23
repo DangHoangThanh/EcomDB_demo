@@ -11,13 +11,12 @@
 
 #ManageProducts-header {
   margin: 50px;
-  background: hsl(34, 50%, 70%);
+  background: hsl(88, 60%, 65%);
   text-align: center;
   border-radius: 20px;
   box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
   padding: 20px 50px;
   font-size: 1.5rem;
-  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
   box-sizing: border-box;
 }
 
@@ -27,48 +26,10 @@
 
 
 
-.ManageProducts-filter {
-  margin-top: 1rem;
-  margin-bottom: 1rem;
-  width: 100%;
-  display: flex;
-  justify-content: space-between;
-  align-items: end;
-}
-
-.ManageProducts-filter .search {
-  width: 50%;
-}
-
-.ManageProducts-filter div h3 {
-  margin-top: 0rem;
-  margin-bottom: 0.5rem;
-}
-
-
-.ManageProducts-filter div input,
-.ManageProducts-filter div select {
-  height: 2.5rem;
-  width: 100%;
-  border-radius: 10px;
-  border: 2px solid hsl(0, 0%, 80%);
-  padding-left: 10px;
-  transition: all 0.4s ease;
-}
-
-.ManageProducts-filter div input:focus,
-.ManageProducts-filter div select:focus {
-  border: 2px solid hsl(0, 0%, 60%);
-  outline: none;
-  box-shadow: 0 0 0 4px rgba(0, 0, 0, 0.3);
-}
 
 
 
-
-
-
-.admin-products-list {
+.ManageProducts-table-container {
   display: flex;
   flex-direction: column;
   width: 95%;
@@ -80,23 +41,23 @@
 }
 
 
-.admin-products-list header {
+.ManageProducts-table-container header {
   font-size: 2.5rem;
   font-weight: bold;
 }
 
 
-.admin-products-list .ManageProducts-paging  {
+.ManageProducts-table-container .ManageProducts-paging  {
   margin-top: 10px;
   margin-bottom: 10px;
   text-align: center;
 }
 
-.admin-products-list .ManageProducts-paging  span {
+.ManageProducts-table-container .ManageProducts-paging  span {
   margin: 10px;
 }
 
-.admin-products-list .ManageProducts-paging  button {
+.ManageProducts-table-container .ManageProducts-paging  button {
   width: 5rem;
   height: 2rem;
   border-radius: 8px;
@@ -105,17 +66,17 @@
   transition: all 0.4s ease;
 }
 
-.admin-products-list .ManageProducts-paging  button:hover:not(:disabled) {
+.ManageProducts-table-container .ManageProducts-paging  button:hover:not(:disabled) {
   background: hsl(0, 0%, 95%);
   border: 2px solid hsl(0, 0%, 50%);
   box-shadow: 0 0 0 4px rgba(0, 0, 0, 0.3);
 }
 
-.admin-products-list .ManageProducts-paging  button:active {
+.ManageProducts-table-container .ManageProducts-paging  button:active {
   background: hsl(0, 0%, 90%);
 }
 
-.admin-products-list .ManageProducts-paging button:disabled{
+.ManageProducts-table-container .ManageProducts-paging button:disabled{
   background: hsl(0, 0%, 87%);
   border: none;
 }
@@ -125,52 +86,54 @@
 
 
 
-.admin-products-list #table {
-  background: rgb(199, 199, 199);
+.ManageProducts-table-container table {
+  margin-top: 12px;
+  background: hsl(88, 50%, 85%);
   border-collapse: collapse;
   overflow: hidden;
   border-radius: 12px;
   border: 6px solid grey;
-  box-shadow: 0 5px 20px rgba(0, 0, 0, 0.3);
+  box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
 }
 
-.admin-products-list #table th:last-child,
-.admin-products-list #table td:last-child {
+.ManageProducts-table-container table th:last-child,
+.ManageProducts-table-container table td:last-child {
   border-right: none;
 }
 
-.admin-products-list #table tr:last-child td {
+.ManageProducts-table-container table tr:last-child td {
   border-bottom: none;
 }
 
 
-.admin-products-list #table th,
-.admin-products-list #table td {
-  border-bottom: 1px solid grey;
-  border-right: 1px solid lightgrey ;
+.ManageProducts-table-container table th,
+.ManageProducts-table-container table td {
   text-align: center;
 }
 
 
-.admin-products-list #table th {
+.ManageProducts-table-container table th {
   height: 3rem;
-  background: hsl(0, 0%, 80%);
+  border-right: 1px solid hsl(88, 50%, 65%) ;
+  background: hsl(88, 50%, 80%);
 }
 
-.admin-products-list #table td {
+.ManageProducts-table-container table td {
+  border-right: 1px solid hsl(88, 50%, 80%) ;
+  border-bottom: 1px solid hsl(88, 50%, 80%) ;
   height: 5rem;
 }
 
-.admin-products-list #table .index {
-  background: hsl(0, 0%, 70%);
+.ManageProducts-table-container table .index {
+  background: hsl(88, 35%, 70%);
   width: 30px;
 }
 
 /* Alternate light and dark shade between each row */
-.admin-products-list #table tbody tr {
+.ManageProducts-table-container table tbody tr {
     background-color: hsl(0, 0%, 100%); 
 }
-.admin-products-list #table tbody tr:nth-child(even) {
+.ManageProducts-table-container table tbody tr:nth-child(even) {
     background-color: hsl(0, 0%, 95%); 
 }
 
@@ -217,7 +180,6 @@
   align-items: center;
 
   cursor: pointer;
-  box-shadow: 0px 0px 12px 0px rgb(30, 155, 41);
 }
 #add-product:hover {
   background: rgb(0, 159, 0);

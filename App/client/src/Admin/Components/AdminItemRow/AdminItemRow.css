@@ -31,7 +31,7 @@
 }
 
 
-.AdminItemRow #category span {
+.AdminItemRow .category {
   display: inline-block;
   padding: 4px 8px;
   border-radius: 12px;

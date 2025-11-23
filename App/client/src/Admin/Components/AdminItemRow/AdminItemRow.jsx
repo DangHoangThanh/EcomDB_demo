@@ -18,8 +18,8 @@ const AdminItemRow = (props) => {
         />
       </td>
       <td id="name">{props.TenSP}</td>
-      <td id="category">
-        <span>{props.LoaiSP}</span>
+      <td>
+        <span className={`category`}>{props.LoaiSP}</span>
       </td>
       <td id="price">{vnd(props.GiaTien)}</td>
       <td id="description">{props.MoTa}</td>
