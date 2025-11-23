@@ -8,3 +8,14 @@ export function getAllOrders(page = 1, limit = 20) {
   });
   return data;
 }
+
+export function updateOrderStatus(orderId, newStatus) {
+  console.log(`[Order Service]Calling updateOrderStatus(${orderId},${newStatus})`);
+  const data = apiFetch(`/order/${orderId}/status`, {
+    method: "PUT",
+    body: {
+      newStatus: newStatus
+    }
+  });
+  return data;
+}

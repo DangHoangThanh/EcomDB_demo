@@ -3,10 +3,11 @@ import React, { useState, useEffect } from "react";
 
 // Import components
 import AdminOrderRow from "../../Components/AdminOrderRow/AdminOrderRow";
+import OrderForm from "../../Components/OrderForm/OrderForm";
+import LoadingOverlay from "../../../Components/LoadingOverlay/LoadingOverlay";
 
 // Import APIs
-import { getAllOrders } from "../../../api/orderService";
-
+import { getAllOrders, updateOrderStatus } from "../../../api/orderService";
 
 function ManageOrders() {
   const [loading, setLoading] = useState(false);
@@ -16,6 +17,46 @@ function ManageOrders() {
   const [totalCount, setTotalCount] = useState(0);
   const limit = 10;
 
+  const handleUpdateStatus = async (orderId, newStatus) => {
+    setLoading(true);
+    try {
+      const res = await updateOrderStatus(orderId, newStatus);
+
+      if (res?.status) {
+        setOrders(prevOrders => 
+          prevOrders.map(order => 
+            order.MaDon === orderId ? { ...order, TrangThai: newStatus } : order
+          )
+        );
+        alert("Cập nhật trạng thái thành công!");
+      } else {
+        const msg = res?.message || (res && JSON.stringify(res)) || "Không thể cập nhật trạng thái.";
+        console.warn("Failed to update status:", res);
+        alert("Không thể cập nhật trạng thái: " + msg);
+      }
+
+    } catch(error) {
+      console.log(error);
+      alert("Lỗi khi cập nhật đơn hàng, see console");
+    }
+    setLoading(false);
+    setIsFormVisible(false);
+  }
+  
+
+  // Form related
+  const [isFormVisible, setIsFormVisible] = useState(false);
+  const [formCurrentItem, setFormCurrentItem] = useState(null);
+
+  const openForm = (currentItem = null) => {
+    console.log(currentItem);
+    setFormCurrentItem(currentItem);
+    setIsFormVisible(true);
+  };
+
+
+
+
   // Fetch users method
   const fetchOrders = async (page = 1, limit = 20) => {
     setLoading(true);
@@ -23,7 +64,7 @@ function ManageOrders() {
       const response = await getAllOrders(page, limit);
       const resOrders = response.orders;
       const resPagination = response.pagination;
-      
+
       setOrders(resOrders);
       setTotalCount(resPagination.TotalCount);
       setTotalPages(resPagination.TotalPages);
@@ -39,9 +80,9 @@ function ManageOrders() {
     fetchOrders(currentPage, limit);
   }, [currentPage]);
 
-
   return (
     <div className="ManageOrders-container">
+      {loading && (<LoadingOverlay/>)}
       <div id="ManageOrders-header">
         <h2 style={{ color: "white" }}>📦Quản lí đơn hàng</h2>
       </div>
@@ -50,7 +91,6 @@ function ManageOrders() {
         <header>Danh sách đơn hàng</header>
 
         <div>Tổng cộng {totalCount} đơn hàng</div>
-
 
         <table>
           <thead>
@@ -69,13 +109,7 @@ function ManageOrders() {
           <tbody>
             {orders.map((item, i) => {
               const index = i + 1 + (currentPage - 1) * limit;
-              return (
-                <AdminOrderRow
-                  key={i}
-                  index={index}
-                  {...item}
-                />
-              );
+              return <AdminOrderRow key={i} index={index} order={item} onEdit={() => openForm(item)}/>;
             })}
           </tbody>
         </table>
@@ -101,6 +135,19 @@ function ManageOrders() {
           </button>
         </div>
       </div>
+
+      {isFormVisible && (
+        <div id="OrderForm-overlay">
+          <OrderForm
+            order={formCurrentItem}
+            onEdit={(newStatus) =>
+              handleUpdateStatus(formCurrentItem.MaDon, newStatus)
+            }
+
+            onCancel={() => setIsFormVisible(false)}
+          />
+        </div>
+      )}
 
 
     </div>

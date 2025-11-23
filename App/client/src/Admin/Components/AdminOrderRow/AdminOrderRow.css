@@ -1,5 +1,6 @@
-.AdminOrderRow tr {
+.AdminOrderRow {
   height: 4rem;
+  cursor: pointer;
 }
 
 .AdminOrderRow td {
@@ -53,3 +54,76 @@
   background: hsl(101, 63%, 46%);
   color: white;
 }
+
+
+
+
+
+
+
+
+
+
+.AdminOrderRow.expanded {
+  background: hsl(34, 65%, 90%);
+}
+.AdminOrderRow.expanded td:first-child {
+  background: hsl(30, 31%, 80%);
+}
+
+.AdminOrderRow:not(.expanded):hover {
+  transition: all 0.2s ease;
+}
+
+
+.AdminOrder-details-row hr {
+  border-color: hsl(34, 50%, 90%);
+}
+
+
+
+.AdminOrder-details-content {
+  padding: 20px 40px;
+  background: hsl(34, 60%, 97%);
+}
+
+.AdminOrder-details-content p,
+.AdminOrder-details-content h3 {
+  margin: 0;
+}
+
+
+
+.AdminOrder-details-content .products-list {
+  background: hsl(34, 60%, 99%);
+}
+
+.AdminOrder-details-content .listitem {
+  display: flex;
+  align-items: center;
+  font-size: 0.8rem;
+  border-bottom: 1px solid hsl(0, 0%, 92%);
+}
+
+.AdminOrder-details-content .listitem img {
+  background: white;
+  height: 70px;
+  margin-right: 15px;
+  border-radius: 5px;
+}
+
+.AdminOrder-details-content .amount p,
+.AdminOrder-details-content .amount b {
+  display: inline;
+  padding-right: 20px;
+}
+
+.AdminOrder-details-content .shipping-address-block {
+  padding: 20px;
+  background: white;
+}
+
+.AdminOrder-details-content .shipping-address-block h3 {
+  color: hsl(108, 59%, 40%);
+}
+

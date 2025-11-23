@@ -38,11 +38,18 @@ router.get('/orders/', async (req, res) => {
             
             contentRequest.input('input_MaDon', sql.VarChar, order.MaDon);
             const contentResult = await contentRequest.execute('GetOrderContentByMaDon');
-
             const productList = contentResult.recordsets[0];
+
+            const userRequest = pool.request();
+
+            userRequest.input('UserID', sql.VarChar, order.UserID);
+            const userResult = await userRequest.query('SELECT * FROM [User] WHERE UserID = @UserID');
+            const userInfo = userResult.recordsets[0][0];
+
 
             return {
                 ...order,
+                userInfo: userInfo,
                 productList: productList
             };
         }));
@@ -141,6 +148,80 @@ router.get('/:MaDon', async (req, res) => {
     }
 });
 
+
+
+
+
+
+
+
+
+
+// (PUT) /order/:MaDon/status
+// Updates status of an order 
+router.put('/:MaDon/status', async (req, res) => {
+    const { MaDon } = req.params;
+    const { newStatus } = req.body;
+
+    if (!newStatus) {
+        return res.status(400).json({ error: 'Missing required field: newStatus in request body.' });
+    }
+
+
+    try {
+        const pool = await sql.connect(dbConfig);
+        const request = pool.request();
+
+        // Prepare input n run
+        request.input('MaDon', sql.VarChar, MaDon);
+        request.input('NewTrangThai', sql.NVarChar(20), newStatus);
+
+        const result = await request.execute('UpdateOrderStatus');
+
+        // Good exec
+        const updateResult = result.recordset[0];
+
+        res.status(200).json({
+            status: 'success',
+            message: updateResult.Message || 'Order status updated.',
+            data: {
+                MaDon: updateResult.MaDon,
+                NewTrangThai: updateResult.NewTrangThai
+            }
+        });
+
+    } catch (err) {
+        // Bad exec
+        console.error(`Error processing order ${MaDon} update to ${newStatus}:`, err.message);
+
+        // Send a meaningful response back to the client
+        const errorMessage = err.message || 'An unknown error occurred during the update.';
+        
+        if (err.number === 50001) {
+            // Invalid transition error from trigger
+            return res.status(400).json({ 
+                status: 'failure',
+                code: 'INVALID_TRANSITION',
+                message: errorMessage
+            });
+        }
+        
+        if (err.number === 50002) {
+            // Order not found error from procedure
+            return res.status(404).json({ 
+                status: 'failure',
+                code: 'ORDER_NOT_FOUND',
+                message: errorMessage
+            });
+        }
+        
+        // Generic fallback error
+        res.status(500).json({ 
+            status: 'error',
+            message: 'Internal server error: Could not complete the database operation.' 
+        });
+    }
+});
 
 
 

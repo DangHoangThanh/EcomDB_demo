@@ -215,6 +215,59 @@ GO
 
 
 
+CREATE PROCEDURE UpdateOrderStatus
+    @MaDon VARCHAR(8),
+    @NewTrangThai NVARCHAR(20)
+AS
+BEGIN
+    SET NOCOUNT ON;
+    SET XACT_ABORT ON;
+
+    BEGIN TRY
+        -- Check if order exists
+        IF NOT EXISTS (SELECT 1 FROM [DonHang] WHERE MaDon = @MaDon)
+        BEGIN
+            ;THROW 50002, 'Order ID (MaDon) not found.', 1;
+            RETURN;
+        END
+
+        -- Attempt update. 
+        UPDATE [DonHang]
+        SET TrangThai = @NewTrangThai
+        WHERE MaDon = @MaDon;
+
+        -- If the update succeeds, confirm change.
+        IF @@ROWCOUNT > 0
+        BEGIN
+            SELECT 
+                'SUCCESS' AS Result, 
+                @MaDon AS MaDon, 
+                @NewTrangThai AS NewTrangThai,
+                N'Order status updated successfully.' AS Message;
+        END
+        ELSE
+        BEGIN
+             -- fallback
+             SELECT 
+                'INFO' AS Result, 
+                @MaDon AS MaDon, 
+                @NewTrangThai AS NewTrangThai,
+                N'Order status was already set to this value, no change made.' AS Message;
+        END
+
+    END TRY
+    BEGIN CATCH
+        -- If an error was thrown, capture and return it.
+        IF @@TRANCOUNT > 0
+            ROLLBACK TRANSACTION;
+        THROW; 
+    END CATCH
+END
+GO
+
+
+
+
 
 
 
