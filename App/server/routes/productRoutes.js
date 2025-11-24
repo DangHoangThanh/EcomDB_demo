@@ -36,6 +36,148 @@ router.get("/products/", async (req, res) => {
   }
 });
 
+// (GET)/product/products/category
+// get products by category paged
+router.get("/products/category", async (req, res) => {
+  const { category } = req.query;
+  let page = parseInt(req.query.page, 10) || 1;
+  let limit = parseInt(req.query.limit, 10) || 20;
+
+  if (!category) {
+    return res.status(400).json({ error: "Category parameter is required." });
+  }
+
+  if (page < 1) page = 1;
+  if (limit < 1) limit = 1;
+
+  try {
+    const pool = await sql.connect(dbConfig);
+    const request = pool.request();
+
+    // Setup input
+    request.input("Category", sql.NVarChar(50), category);
+    request.input("page", sql.Int, page);
+    request.input("limit", sql.Int, limit);
+
+    const result = await request.execute("GetSanPhamByCategory");
+
+    // Return 2 sets: products and paging
+    const products = result.recordsets[0] || [];
+    const pagination =
+      result.recordsets[1] && result.recordsets[1].length > 0
+        ? result.recordsets[1][0]
+        : { TotalCount: 0, TotalPages: 0, CurrentPage: page, Limit: limit };
+
+    res.json({
+      products: products,
+      pagination: pagination,
+    });
+  } catch (err) {
+    console.error("SQL Error during SP execution:", err.message);
+    res.status(500).json({
+      error: "Failed to retrieve products from database.",
+      details: err.message,
+    });
+  }
+});
+
+// (GET)/product/products/sorted
+// get products sorted by GiaTien
+router.get("/products/sorted", async (req, res) => {
+  let sortOrder = req.query.order ? req.query.order.toUpperCase() : "ASC";
+  let page = parseInt(req.query.page, 10) || 1;
+  let limit = parseInt(req.query.limit, 10) || 20;
+
+  if (sortOrder !== "ASC" && sortOrder !== "DESC") {
+    sortOrder = "ASC";
+  }
+
+  if (page < 1) page = 1;
+  if (limit < 1) limit = 1;
+
+  try {
+    const pool = await sql.connect(dbConfig);
+    const request = pool.request();
+
+    request.input("SortOrder", sql.VarChar(4), sortOrder);
+    request.input("page", sql.Int, page);
+    request.input("limit", sql.Int, limit);
+
+    const result = await request.execute("GetSanPhamSortedByGiaTien");
+
+    // Return 2 sets: products and pagination
+    const products = result.recordsets[0] || [];
+    const pagination =
+      result.recordsets[1] && result.recordsets[1].length > 0
+        ? result.recordsets[1][0]
+        : { TotalCount: 0, TotalPages: 0, CurrentPage: page, Limit: limit };
+
+    res.json({
+      products: products,
+      pagination: pagination,
+    });
+  } catch (err) {
+    console.error("SQL Error during sorted product execution:", err.message);
+    res.status(500).json({
+      error: "Failed to retrieve sorted products from database.",
+      details: err.message,
+    });
+  }
+});
+
+
+
+
+// (GET)/product/products/search
+// search products by name
+router.get("/products/search", async (req, res) => {
+  const { query } = req.query;
+  let page = parseInt(req.query.page, 10) || 1;
+  let limit = parseInt(req.query.limit, 10) || 20;
+
+  if (!query || query.trim() === "") {
+    return res
+      .status(400)
+      .json({ error: "Search query parameter (q) is required." });
+  }
+
+  // Ensure numeric values are positive
+  if (page < 1) page = 1;
+  if (limit < 1) limit = 1;
+
+  try {
+    const pool = await sql.connect(dbConfig);
+    const request = pool.request();
+
+    request.input("query", sql.NVarChar(100), query.trim());
+    request.input("page", sql.Int, page);
+    request.input("limit", sql.Int, limit);
+
+    const result = await request.execute("SearchSanPham");
+
+    // Return 2 sets
+    const products = result.recordsets[0] || [];
+    const pagination =
+      result.recordsets[1] && result.recordsets[1].length > 0
+        ? result.recordsets[1][0]
+        : { TotalCount: 0, TotalPages: 0, CurrentPage: page, Limit: limit };
+
+    res.json({
+      products: products,
+      pagination: pagination,
+    });
+  } catch (err) {
+    console.error("SQL Error during product search execution:", err.message);
+    res.status(500).json({
+      error: "Failed to execute product search.",
+      details: err.message,
+    });
+  }
+});
+
+
+
+
 // (GET)/:MaSP
 // Return single product
 router.get("/:MaSP", async (req, res) => {

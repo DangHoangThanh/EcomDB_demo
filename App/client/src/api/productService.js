@@ -9,6 +9,33 @@ export function getAllProducts(page = 1, limit = 20) {
   return data;
 }
 
+export function getProductsByCategory(category, page = 1, limit = 20) {
+  console.log(`[Product Service]Calling getProductsByCategory(${category},${page},${limit})`);
+  const data = apiFetch(`/product/products/category`, {
+    method: "GET",
+    params: { category:category, page: page, limit: limit },
+  });
+  return data;
+}
+
+export function getProductsSortedByPrice(order, page = 1, limit = 20) {
+  console.log(`[Product Service]Calling getProductsSortedByPrice(${order},${page},${limit})`);
+  const data = apiFetch(`/product/products/sorted`, {
+    method: "GET",
+    params: { order:order, page: page, limit: limit },
+  });
+  return data;
+}
+
+export function searchProducts(query, page = 1, limit = 20) {
+  console.log(`[Product Service]Calling searchProducts(${query},${page},${limit})`);
+  const data = apiFetch(`/product/products/search`, {
+    method: "GET",
+    params: { query:query, page: page, limit: limit },
+  });
+  return data;
+}
+
 export async function newProduct(productInfo) {
   console.log(`[Product Service]Calling newProduct()`);
   const data = apiFetch(`/product/new`, {

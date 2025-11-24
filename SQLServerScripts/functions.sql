@@ -407,3 +407,320 @@ BEGIN
 
 END
 GO
+
+
+
+
+
+
+
+-- SP Get San Pham by category ------------ 
+
+CREATE OR ALTER PROCEDURE GetSanPhamByCategory (
+    @Category NVARCHAR(50),
+    @page INT,
+    @limit INT 
+)
+AS
+BEGIN
+    SET NOCOUNT ON;
+
+    IF @page < 1 SET @page = 1;
+    IF @limit < 1 SET @limit = 20;
+
+    DECLARE @Offset INT = (@page - 1) * @limit;
+    DECLARE @TotalCount INT;
+    DECLARE @TotalPages INT;
+
+    DECLARE @Category1 NVARCHAR(50) = N'Đồ tươi sống';
+    DECLARE @Category2 NVARCHAR(50) = N'Thực phẩm đóng hộp';
+    DECLARE @Category3 NVARCHAR(50) = N'Đồ gia dụng';
+
+    --  Get Total Count---
+    IF @Category IN (@Category1, @Category2, @Category3)
+    BEGIN
+        -- Count for specific categories
+        SELECT @TotalCount = COUNT(MaSP)
+        FROM [SanPham]
+        WHERE LoaiSP = @Category;
+    END
+    ELSE IF @Category = N'Khác'
+    BEGIN
+        -- Count 'Khác' category
+        SELECT @TotalCount = COUNT(MaSP)
+        FROM [SanPham]
+        WHERE LoaiSP NOT IN (@Category1, @Category2, @Category3);
+    END
+    ELSE
+    BEGIN
+        -- Fallback - count 0
+        SET @TotalCount = 0;
+    END
+
+    SET @TotalPages = CEILING(CAST(@TotalCount AS DECIMAL) / @limit);
+    
+    -- Ensure current page does not exceed total pages
+    IF @TotalCount > 0 AND @page > @TotalPages 
+    BEGIN
+        SET @page = @TotalPages;
+        SET @Offset = (@page - 1) * @limit;
+    END
+
+
+
+
+    -- Return product ---
+    IF @TotalCount > 0 
+    BEGIN
+        IF @Category IN (@Category1, @Category2, @Category3)
+        BEGIN
+            -- Case 1: Category match
+            SELECT
+                MaSP,
+                TenSP,
+                GiaTien,
+                MoTa,
+                LoaiSP
+            FROM
+                [SanPham]
+            WHERE
+                LoaiSP = @Category
+            ORDER BY
+                TenSP, MaSP
+            OFFSET @Offset ROWS 
+            FETCH NEXT @limit ROWS ONLY;
+        END
+        ELSE IF @Category = N'Khác'
+        BEGIN
+            -- Case 2: 'Khác' Category
+            SELECT
+                MaSP,
+                TenSP,
+                GiaTien,
+                MoTa,
+                LoaiSP
+            FROM
+                [SanPham]
+            WHERE
+                LoaiSP NOT IN (@Category1, @Category2, @Category3)
+            ORDER BY
+                TenSP, MaSP
+            OFFSET @Offset ROWS 
+            FETCH NEXT @limit ROWS ONLY;
+        END
+        ELSE -- return empty array for products set 
+        BEGIN
+            SELECT
+                MaSP,
+                TenSP,
+                GiaTien,
+                MoTa,
+                LoaiSP
+            FROM [SanPham]
+            WHERE 1 = 0;
+        END
+
+    END
+    ELSE -- return empty array for products set 
+    BEGIN
+        SELECT
+            MaSP,
+            TenSP,
+            GiaTien,
+            MoTa,
+            LoaiSP
+        FROM [SanPham]
+        WHERE 1 = 0;
+    END
+
+        -- Return Paging
+    SELECT
+        @TotalCount AS TotalCount,
+        @TotalPages AS TotalPages,
+        @page AS CurrentPage,
+        @limit AS [Limit];
+
+
+
+END
+GO
+
+
+
+
+
+
+-- SP get SanPham sorted by GiaTien
+CREATE OR ALTER PROCEDURE GetSanPhamSortedByGiaTien (
+    @SortOrder VARCHAR(4),
+    @page INT,
+    @limit INT
+)
+AS
+BEGIN
+    SET NOCOUNT ON;
+
+    IF @page < 1 SET @page = 1;
+    IF @limit < 1 SET @limit = 20;
+    
+    -- Ensure order valid, default ASC
+    IF UPPER(@SortOrder) NOT IN ('ASC', 'DESC') 
+        SET @SortOrder = 'ASC';
+
+    DECLARE @Offset INT = (@page - 1) * @limit;
+    DECLARE @TotalCount INT;
+    DECLARE @TotalPages INT;
+
+    -- Total Count ---
+    SELECT @TotalCount = COUNT(MaSP) FROM [SanPham];
+
+    -- Total page ---
+    SET @TotalPages = CEILING(CAST(@TotalCount AS DECIMAL) / @limit);
+    
+    IF @TotalCount > 0 AND @page > @TotalPages 
+    BEGIN
+        SET @page = @TotalPages;
+        SET @Offset = (@page - 1) * @limit;
+    END
+
+    -- Return Product Data Set ---
+    IF @TotalCount > 0 
+    BEGIN
+        -- Use a dynamic SQL query to handle sort
+        DECLARE @SQL NVARCHAR(MAX);
+        
+        SET @SQL = N'
+        SELECT
+            MaSP,
+            TenSP,
+            GiaTien,
+            MoTa,
+            LoaiSP
+        FROM
+            [SanPham]
+        ORDER BY
+            GiaTien ' + @SortOrder + N', MaSP -- Secondary sort by MaSP for stable results
+        OFFSET @OffsetParam ROWS 
+        FETCH NEXT @LimitParam ROWS ONLY;
+        ';
+
+        EXEC sp_executesql @SQL,
+            N'@OffsetParam INT, @LimitParam INT',
+            @OffsetParam = @Offset,
+            @LimitParam = @limit;
+    END
+    ELSE -- return empty array for products set 
+    BEGIN
+        SELECT
+            MaSP,
+            TenSP,
+            GiaTien,
+            MoTa,
+            LoaiSP
+        FROM [SanPham]
+        WHERE 1 = 0;
+    END
+
+    
+    -- Return Paging set ---
+    SELECT
+        @TotalCount AS TotalCount,
+        @TotalPages AS TotalPages,
+        @page AS CurrentPage,
+        @limit AS [Limit];
+
+
+END
+GO
+
+
+
+
+
+
+-- Search SanPham by name
+
+CREATE OR ALTER PROCEDURE SearchSanPham (
+    @query NVARCHAR(100),
+    @page INT,
+    @limit INT
+)
+AS
+BEGIN
+    SET NOCOUNT ON;
+
+    IF @page < 1 SET @page = 1;
+    IF @limit < 1 SET @limit = 20; 
+
+    DECLARE @SearchPattern NVARCHAR(102) = N'%' + @query + N'%';
+
+    DECLARE @Offset INT;
+    DECLARE @TotalCount INT;
+    DECLARE @TotalPages INT;
+
+    -- Total count of return
+    SELECT @TotalCount = COUNT(MaSP)
+    FROM [SanPham]
+    WHERE TenSP LIKE @SearchPattern;
+
+    -- Total pages
+    SET @TotalPages = CEILING(CAST(@TotalCount AS DECIMAL) / @limit);
+    
+    -- Recalculate offset and page if  page out of bounds
+    IF @TotalCount > 0 
+    BEGIN
+        IF @page > @TotalPages 
+        BEGIN
+            SET @page = @TotalPages;
+        END
+    END
+    ELSE 
+    BEGIN
+        -- If count is 0
+        SET @page = 1;
+        SET @TotalPages = 0;
+    END
+
+    SET @Offset = (@page - 1) * @limit;
+
+
+    -- Return Product Data Set
+    IF @TotalCount > 0 
+    BEGIN
+        SELECT
+            MaSP,
+            TenSP,
+            GiaTien,
+            MoTa,
+            LoaiSP
+        FROM
+            [SanPham]
+        WHERE
+            TenSP LIKE @SearchPattern
+        ORDER BY
+            TenSP, MaSP
+        OFFSET @Offset ROWS 
+        FETCH NEXT @limit ROWS ONLY;
+    END
+    ELSE -- return empty array for products set 
+    BEGIN
+        SELECT
+            MaSP,
+            TenSP,
+            GiaTien,
+            MoTa,
+            LoaiSP
+        FROM [SanPham]
+        WHERE 1 = 0;
+    END
+
+    -- Return pagination set
+    SELECT
+    @TotalCount AS TotalCount,
+    @TotalPages AS TotalPages,
+    @page AS CurrentPage,
+    @limit AS [Limit];
+
+
+END
+GO

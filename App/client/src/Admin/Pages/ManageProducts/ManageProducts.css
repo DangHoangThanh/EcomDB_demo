@@ -29,6 +29,50 @@
 
 
 
+
+.ManageProducts-filter {
+  margin-bottom: 3rem;
+  width: 95%;
+  display: flex;
+  justify-content: space-between;
+  align-items: end;
+  background: white;
+  border-radius: 20px;
+  padding: 20px 40px;
+  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
+  box-sizing: border-box;
+}
+
+.ManageProducts-filter .search {
+  width: 50%;
+}
+
+.ManageProducts-filter div input,
+.ManageProducts-filter div select {
+  height: 2.5rem;
+  width: 100%;
+  border-radius: 10px;
+  border: 2px solid hsl(0, 0%, 80%);
+  padding-left: 10px;
+  transition: all 0.4s ease;
+}
+
+.ManageProducts-filter div input:focus,
+.ManageProducts-filter div select:focus {
+  border: 2px solid hsl(0, 0%, 60%);
+  outline: none;
+  box-shadow: 0 0 0 4px rgba(0, 0, 0, 0.3);
+}
+
+
+
+
+
+
+
+
+
+
 .ManageProducts-table-container {
   display: flex;
   flex-direction: column;

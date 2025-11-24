@@ -1,12 +1,25 @@
 import "./ManageProducts.css";
 import React, { useState, useEffect } from "react";
-// import all_product from "../../../data/all_product";
 import { FaPlusCircle } from "react-icons/fa";
-import { getAllProducts } from "../../../api/productService";
 
+// Import components
 import AdminItemRow from "../../Components/AdminItemRow/AdminItemRow";
 import ProductForm from "../../Components/ProductForm/ProductForm";
 import LoadingOverlay from "../../../Components/LoadingOverlay/LoadingOverlay";
+
+
+// Import APIs
+import {
+  getAllProducts,
+  getProductsByCategory,
+  getProductsSortedByPrice,
+  searchProducts
+} from "../../../api/productService";
+
+
+// Import utils
+import useDebounce from "../../../utils/useDebounce";
+
 
 function ManageProducts() {
   const [loading, setLoading] = useState(false);
@@ -16,6 +29,11 @@ function ManageProducts() {
   const [totalProducts, setTotalProducts] = useState(0);
   const limit = 20;
 
+  const [searchTerm, setSearchTerm] = useState("");
+  const debouncedSearchTerm = useDebounce(searchTerm, 500);
+  const [selectedProductCategory, setSelectedProductCategory] = useState("Tất cả");
+  const [selectedSortOrder, setSelectedSortOrder] = useState("Default");
+
   // Fetch products method (from all product)
   const fetchProducts = async (page = 1, limit = 20) => {
     setLoading(true);
@@ -23,7 +41,7 @@ function ManageProducts() {
       const response = await getAllProducts(page, limit);
       const resProducts = response.products;
       const resPagination = response.pagination;
-      
+
       setProducts(resProducts);
       setTotalProducts(resPagination.TotalCount);
       setTotalPages(resPagination.TotalPages);
@@ -34,10 +52,87 @@ function ManageProducts() {
     setLoading(false);
   };
 
+  // Fetch products method (from all product)
+  const fetchProductsByCategory = async (category, page = 1, limit = 20) => {
+    setLoading(true);
+    try {
+      const response = await getProductsByCategory(category, page, limit);
+      const resProducts = response.products;
+      const resPagination = response.pagination;
+
+      setProducts(resProducts);
+      setTotalProducts(resPagination.TotalCount);
+      setTotalPages(resPagination.TotalPages);
+    } catch (error) {
+      console.log(error);
+      alert("Fetch products failed");
+    }
+    setLoading(false);
+  };
+
+  // Fetch products method (from all product)
+  const fetchProductsSorted = async (order, page = 1, limit = 20) => {
+    setLoading(true);
+    try {
+      const response = await getProductsSortedByPrice(order, page, limit);
+      const resProducts = response.products;
+      const resPagination = response.pagination;
+
+      setProducts(resProducts);
+      setTotalProducts(resPagination.TotalCount);
+      setTotalPages(resPagination.TotalPages);
+    } catch (error) {
+      console.log(error);
+      alert("Fetch products failed");
+    }
+    setLoading(false);
+  };
+
+
+  // Handle Search
+  const handleSearch = async (query, page, limit) => {
+    setLoading(true);
+    try {
+      const response = await searchProducts(query, page, limit);
+      const resProducts = response.products;
+      const resPagination = response.pagination;
+
+      setProducts(resProducts);
+      setTotalProducts(resPagination.TotalCount);
+      setTotalPages(resPagination.TotalPages);
+      setCurrentPage(resPagination.CurrentPage);
+    } catch (error) {
+      console.log(error);
+      alert("Fetch products failed");
+    }
+    setLoading(false);
+  };
+
+
+
+
   // Fetch new page upon page change
   useEffect(() => {
-    fetchProducts(currentPage, limit);
-  }, [currentPage]);
+    if (debouncedSearchTerm) {
+      setSelectedProductCategory('Tất cả');
+      setSelectedSortOrder('Default');
+      handleSearch(debouncedSearchTerm, currentPage, limit);
+    } else {
+      if (selectedProductCategory === "Tất cả") {
+        if (selectedSortOrder === "Default") {
+          fetchProducts(currentPage, limit);
+        } else {
+          fetchProductsSorted(selectedSortOrder, currentPage, limit);
+        }
+      } else {
+        setSelectedSortOrder('Default');
+        fetchProductsByCategory(selectedProductCategory, currentPage, limit);
+      }
+    }
+  }, [currentPage, selectedProductCategory, selectedSortOrder, debouncedSearchTerm]);
+
+
+
 
   // State of  ProductForm
   const [isFormVisible, setIsFormVisible] = useState(false);
@@ -53,16 +148,63 @@ function ManageProducts() {
 
   return (
     <div className="ManageProducts-container">
-      {loading && <LoadingOverlay/>}
+      {loading && <LoadingOverlay />}
       <div id="ManageProducts-header">
         <h2 style={{ color: "white" }}>📦Quản lí sản phẩm</h2>
+      </div>
+
+      <div className="ManageProducts-filter">
+        <div className="category">
+          <h3>Phân loại:</h3>
+          <select
+            onChange={(e) => setSelectedProductCategory(e.target.value)}
+            value={selectedProductCategory}
+            disabled={searchTerm}
+          >
+            <option value="" disabled>
+              Lọc theo phân loại
+            </option>
+            <option value="Tất cả">Tất cả</option>
+            <option value="Đồ tươi sống">Đồ tươi sống</option>
+            <option value="Thực phẩm đóng hộp">Thực phẩm đóng hộp</option>
+            <option value="Đồ gia dụng">Đồ gia dụng</option>
+            <option value="Khác">Khác</option>
+          </select>
+        </div>
+
+        <div className="search">
+          <h3>Tìm theo tên sản phẩm:</h3>
+          <form>
+            <input
+              type="text"
+              value={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value)}
+              placeholder="Nhập tên sản phẩm"
+            ></input>
+          </form>
+        </div>
+
+        <div className="sort">
+          <h3>Giá thành:</h3>
+          <select
+            onChange={(e) => setSelectedSortOrder(e.target.value)}
+            value={selectedSortOrder}
+            disabled={searchTerm || selectedProductCategory !== 'Tất cả'}
+          >
+            <option value="" disabled>
+              Sắp xếp theo giá
+            </option>
+            <option value="Default">Mặc định</option>
+            <option value="ASC">Tăng dần</option>
+            <option value="DESC">Giảm dần</option>
+          </select>
+        </div>
       </div>
 
       <div className="ManageProducts-table-container">
         <header>Danh sách các sản phẩm</header>
 
         <div>Tổng cộng {totalProducts} sản phẩm</div>
-
 
         <table>
           <thead>
