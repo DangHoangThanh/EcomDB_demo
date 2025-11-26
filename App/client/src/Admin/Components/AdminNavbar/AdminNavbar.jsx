@@ -12,7 +12,7 @@ function AdminNavbar() {
     setIsAuthed(!!localStorage.getItem("adminToken"));
     try {
       const info = JSON.parse(localStorage.getItem("admin") || "{}");
-      setAdminName(info?.username || "Admin");
+      setAdminName(info?.HoTen || "Admin");
     } catch {
       setAdminName("Admin");
     }
@@ -30,12 +30,10 @@ function AdminNavbar() {
   }, []);
 
   const handleLogout = () => {
-    // localStorage.removeItem("adminToken");
-    // localStorage.removeItem("admin");
-    // window.dispatchEvent(new Event("auth-changed"));
+    localStorage.removeItem("admin");
+    window.dispatchEvent(new Event("auth-changed"));
 
-    // TODO handleLogout
-    navigate("/");
+    navigate("/login");
   };
 
   return (

@@ -40,7 +40,7 @@ const AdminItemRow = (props) => {
       <td>
         <span>{user.Email}</span>
       </td>
-      <td onClick={() => togglePasswordVisible()}>
+      {/* <td onClick={() => togglePasswordVisible()}>
         <span className={`password ${passwordVisible? 'visible': ''}`}>
           {passwordVisible ? (
             
@@ -50,7 +50,7 @@ const AdminItemRow = (props) => {
           )
           }
         </span>
-      </td>
+      </td> */}
       <td>
         <button className={`action-button ${'topPurchased'}`} onClick={onTopPurchased}>
           Mua nhiều nhất

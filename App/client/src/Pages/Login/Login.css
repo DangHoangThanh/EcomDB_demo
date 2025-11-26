@@ -1,0 +1,52 @@
+.Login-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    padding: 20px;
+}
+
+/* Style for form  */
+#signInForm {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    padding: 20px;
+    border: 1px solid #ccc;
+    width: 100%;
+    max-width: 350px;
+    margin-top: 20px;
+}
+
+/* Style for input */
+#signInForm > div {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+}
+
+input {
+    padding: 10px;
+    margin-top: 5px;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+/* Style for buttons */
+#signInButton, .Login-container > button {
+    padding: 10px 15px;
+    margin-top: 10px;
+    cursor: pointer;
+    text-align: center;
+    width: 100%;
+    box-sizing: border-box;
+    border: 1px solid #333;
+    background: none;
+}
+
+
+.Login-container > button {
+    margin-top: 10px;
+    max-width: 350px;
+}

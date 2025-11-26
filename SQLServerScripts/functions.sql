@@ -236,6 +236,75 @@ GO
 
 
 
+
+CREATE OR ALTER PROCEDURE GetCustomersPaged (
+    @page INT,
+    @limit INT
+)
+AS
+BEGIN
+    SET NOCOUNT ON; -- Prevents sending rowcount message
+
+    IF @page < 1
+        SET @page = 1;
+    IF @limit < 1
+        SET @limit = 10;
+
+    DECLARE @OffsetRows INT;
+    DECLARE @TotalCount INT;
+    DECLARE @TotalPages INT;
+
+    -- Total Count and Total Pages
+    SELECT @TotalCount = COUNT(*) FROM Customer;
+    SET @TotalPages = CEILING(CAST(@TotalCount AS DECIMAL(10, 2)) / @limit);
+
+    -- Force page if exceeds TotalPages
+    IF @page > @TotalPages AND @TotalPages > 0
+        SET @page = @TotalPages;
+    
+    SET @OffsetRows = (@page - 1) * @limit;
+
+    ---------------------------------------------------
+    -- RESULT SET 1: Customer Data
+    ---------------------------------------------------
+    SELECT
+        C.MaKH,
+        U.UserID,
+        U.HoTen,
+        U.GioiTinh,
+        U.SoDienThoai,
+        U.Email
+    FROM
+        Customer C
+    INNER JOIN
+        [User] U ON C.UserID = U.UserID
+    ORDER BY
+        C.MaKH -- Order by Customer ID
+    OFFSET
+        @OffsetRows ROWS
+    FETCH NEXT
+        @limit ROWS ONLY;
+
+    ---------------------------------------------------
+    -- RESULT SET 2: Pagination
+    ---------------------------------------------------
+    SELECT
+        @TotalCount AS TotalCount,
+        @TotalPages AS TotalPages,
+        @page AS CurrentPage,
+        @limit AS [Limit];
+
+END
+GO
+
+
+
+
+
+
+
+
+
 CREATE OR ALTER PROCEDURE GetProductsPaged (
     @page INT,
     @limit INT
@@ -723,4 +792,58 @@ BEGIN
 
 
 END
+GO
+
+
+
+
+
+
+
+
+
+
+-- Function Validate Admin
+CREATE OR ALTER PROCEDURE ValidateAdmin (
+    @Email VARCHAR(100),
+    @Password NVARCHAR(255)
+)
+AS
+BEGIN
+    SET NOCOUNT ON;
+
+    DECLARE @v_UserID VARCHAR(8);
+    DECLARE @v_MaAdmin VARCHAR(8) = NULL;
+
+    -- Find UserID matching Email and Password
+    SELECT 
+        @v_UserID = UserID
+    FROM 
+        [User]
+    WHERE 
+        Email = @Email 
+        AND Password = @Password;
+
+    -- If UserID found, Check if admin
+    IF @v_UserID IS NOT NULL
+    BEGIN
+        SELECT 
+            @v_MaAdmin = MaAdmin
+        FROM 
+            Admin
+        WHERE 
+            UserID = @v_UserID;
+    END
+
+    -- Return admin user info
+    SELECT 
+        U.*, 
+        A.MaAdmin
+    FROM 
+        [User] U
+    JOIN 
+        Admin A ON U.UserID = A.UserID
+    WHERE
+        A.MaAdmin = @v_MaAdmin
+END;
 GO

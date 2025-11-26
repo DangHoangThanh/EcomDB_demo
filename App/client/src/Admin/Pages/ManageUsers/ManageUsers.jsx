@@ -6,7 +6,7 @@ import AdminUserRow from "../../Components/AdminUserRow/AdminUserRow";
 import TopPurchased from "../../Components/TopPurchased/TopPurchased";
 
 // Import APIs
-import { getAllUsers } from "../../../api/userService";
+import { getAllUsers, getAllCustomers } from "../../../api/userService";
 
 
 function ManageUsers() {
@@ -21,7 +21,7 @@ function ManageUsers() {
   const fetchUsers = async (page = 1, limit = 20) => {
     setLoading(true);
     try {
-      const response = await getAllUsers(page, limit);
+      const response = await getAllCustomers(page, limit);
       const resUsers = response.users;
       const resPagination = response.pagination;
       
@@ -70,7 +70,7 @@ function ManageUsers() {
               <th>Giới tính</th>
               <th>Số điện thoại</th>
               <th>Email</th>
-              <th>Mật khẩu</th>
+              {/* <th>Mật khẩu</th> */}
               <th>Thao tác</th>
             </tr>
           </thead>

@@ -10,6 +10,7 @@ EXEC GetDiaChiByUserID 'USE00001';
 EXEC GetThanhToanByMaDon 'ORD00001';
 
 EXEC GetUsersPaged 2, 10;
+EXEC GetCustomersPaged 1, 10;
 EXEC GetProductsPaged 1, 10;
 EXEC GetOrdersPaged 1, 3;
 EXEC GetOrderListByUserIDPaged 'USE00001',1, 3;
@@ -17,3 +18,4 @@ EXEC GetOrderListByUserIDPaged 'USE00001',1, 3;
 EXEC GetSanPhamByCategory N'Khác',1,20;
 EXEC GetSanPhamSortedByGiaTien 'DESC',1,20;
 EXEC SearchSanPham N'Bình đuasdfasdfn',1,20;
+EXEC ValidateAdmin 'NgAdmin@email.com', 'adamin';
