@@ -32,8 +32,8 @@ const AdminItemRow = (props) => {
         </span>
       </td>
       <td>
-        <span className={`gender ${user.GioiTinh}`}>
-          {genderMap[user.GioiTinh]}
+        <span className={`gender ${user.GioiTinh === 'Nam' ? 'Nam' : 'Nu'}`}>
+          {user.GioiTinh}
         </span>
       </td>
       <td>{user.SoDienThoai}</td>

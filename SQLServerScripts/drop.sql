@@ -11,3 +11,10 @@ GO
 -- 2. Execute the DROP command.
 DROP DATABASE [hcsdl_btl];
 GO
+
+
+create database hcsdl_btl;
+GO
+use hcsdl_btl;
+GO
+
