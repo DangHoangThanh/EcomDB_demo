@@ -7,7 +7,7 @@
 
 #ManageOrders-header {
   margin: 50px;
-  background: hsl(34, 50%, 70%);
+  background: #f3b044;
   text-align: center;
   border-radius: 20px;
   box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
@@ -70,40 +70,82 @@
   background: hsl(0, 0%, 87%);
   border: none;
 }
+/* Updated Manage Orders Table Styles */
 
 .ManageOrders-table-container table {
-  margin-top: 20px;
-  background: hsl(34, 50%, 87%);
-  border-collapse: collapse;
-  overflow: hidden;
-  border-radius: 12px;
-  border: 6px solid red;
-  box-shadow: 0 5px 20px rgba(0, 0, 0, 0.3);
+    margin-top: 30px;
+    width: 100%; /* Ensure the table uses full width of its container */
+    background: #ffffff; /* White background for the table body */
+    border-collapse: separate; /* Allows border-radius on table */
+    border-spacing: 0; /* Remove space between cells */
+    overflow: hidden; 
+    border-radius: 10px; /* Consistent border radius */
+    /* Cleaner, lighter shadow */
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1); 
+    border: none; /* Remove the thick 6px border */
 }
 
-.ManageOrders-table-container table th:last-child,
-.ManageOrders-table-container table td:last-child {
-  border-right: none;
+/* --- Cell Spacing and Alignment --- */
+
+.ManageOrders-table-container table th,
+.ManageOrders-table-container table td {
+    /* Text alignment to the left for better reading of details */
+    text-align: left; 
+    border-bottom: 1px solid #e0e0e0; /* Subtle horizontal line separator */
 }
 
-.ManageOrders-table-container table tr:last-child td {
-  border-bottom: none;
-}
+/* --- Table Header (TH) Styles --- */
 
 .ManageOrders-table-container table th {
-  border-right: 1px solid hsl(34, 50%, 75%);
-  height: 3rem;
-  background: hsl(34, 50%, 80%);
+    padding: 12px 15px;
+    height: 3rem;
+    /* Warm Orange/Gold header background */
+    background: #f3b044; 
+    color: #ffffff; /* White text color for contrast */
+    font-weight: 600;
+    text-transform: uppercase;
+    font-size: 0.9em;
+    letter-spacing: 0.5px;
+    text-align: center; /* Center header text */
+    border-right: none; 
 }
+
+/* Specific styling for the last column (e.g., actions/status) */
+.ManageOrders-table-container table th:last-child,
+.ManageOrders-table-container table td:last-child {
+    text-align: center; /* Keep action/status columns centered */
+    border-right: none;
+}
+
+/* --- Table Data (TD) Styles --- */
 
 .ManageOrders-table-container table td {
-  border-bottom: 2px solid hsl(34, 50%, 90%);
-  height: 5rem;
+    height: auto; /* Let content dictate height */
+    text-align: center;
+    vertical-align: middle;
 }
 
+/* Remove bottom border from the last row */
+.ManageOrders-table-container table tr:last-child td {
+    border-bottom: none;
+}
+
+/* --- Index Column Styling --- */
+
 .ManageOrders-table-container table .index {
-  background: hsl(34, 30%, 70%);
-  width: 30px;
+    /* Very light, warm background for the index */
+    background: #fff0bf; 
+    color: #495057;
+    width: 50px; 
+    font-weight: bold;
+    text-align: center;
+}
+
+/* --- Row Hover Effect (Recommended) --- */
+
+.ManageOrders-table-container table tbody tr:not(.expanded):hover {
+    background-color: #fffaf2; /* Very light background on row hover */
+    cursor: pointer;
 }
 
 /* Alternate light and dark shade between each row */
@@ -113,7 +155,7 @@
 
 
 .action-button {
-  padding: 10px 20px;
+  padding: 20px 20px;
   border-radius: 10px;
   border: none;
   cursor: pointer;

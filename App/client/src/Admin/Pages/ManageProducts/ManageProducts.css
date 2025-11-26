@@ -11,7 +11,7 @@
 
 #ManageProducts-header {
   margin: 50px;
-  background: hsl(88, 60%, 65%);
+  background: #1abc9c;
   text-align: center;
   border-radius: 20px;
   box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
@@ -30,41 +30,82 @@
 
 
 
+/* ManageProducts-filter CSS */
+
 .ManageProducts-filter {
-  margin-bottom: 3rem;
-  width: 95%;
-  display: flex;
-  justify-content: space-between;
-  align-items: end;
-  background: white;
-  border-radius: 20px;
-  padding: 20px 40px;
-  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
-  box-sizing: border-box;
+    /* Container layout to arrange items horizontally */
+    display: flex;
+    justify-content: space-between; 
+    align-items: flex-end; 
+    padding: 20px 20px;
+    margin-bottom: 20px;
+    /* Use the full width of the parent container */
+    width: 95%; 
+    /* Use a light background to distinguish the filter area */
+    background-color: #ffffff; /* Very light gray */
+    border-radius: 20px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05); /* Subtle shadow */
+    gap: 50px; /* Space between the filter sections */
+    box-sizing: border-box; /* Include padding in the total width */
+}
+
+/* --- Individual Filter/Search Sections --- */
+
+.ManageProducts-filter .category,
+.ManageProducts-filter .sort {
+  max-width: 300px;
 }
 
 .ManageProducts-filter .search {
-  width: 50%;
+    flex-grow: 1; 
 }
 
-.ManageProducts-filter div input,
-.ManageProducts-filter div select {
-  height: 2.5rem;
-  width: 100%;
-  border-radius: 10px;
-  border: 2px solid hsl(0, 0%, 80%);
-  padding-left: 10px;
-  transition: all 0.4s ease;
+/* --- Headings --- */
+
+.ManageProducts-filter h3 {
+    font-size: 1em;
+    font-weight: 600;
+    color: #495057; 
+    margin-bottom: 8px;
+    margin-top: 0;
 }
 
-.ManageProducts-filter div input:focus,
-.ManageProducts-filter div select:focus {
-  border: 2px solid hsl(0, 0%, 60%);
-  outline: none;
-  box-shadow: 0 0 0 4px rgba(0, 0, 0, 0.3);
+/* --- Select and Input Styles (General) --- */
+
+.ManageProducts-filter select,
+.ManageProducts-filter input[type="text"] {
+    width: 100%;
+    padding: 10px 12px;
+    border: 1px solid #ced4da; 
+    border-radius: 8px;
+    background-color: #ffffff;
+    font-size: 1em;
+    color: #495057;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+    box-sizing: border-box; 
 }
 
+.ManageProducts-filter select:focus,
+.ManageProducts-filter input[type="text"]:focus {
+    border-color: #1abc9c; 
+    box-shadow: 0 0 0 0.2rem rgba(26, 188, 156, 0.25);
+    outline: none;
+}
 
+/* --- Disabled State --- */
+
+.ManageProducts-filter select:disabled {
+    background-color: #e9ecef;
+    cursor: not-allowed;
+    color: #6c757d;
+}
+
+/* --- Search Bar Specifics --- */
+
+.ManageProducts-filter .search form {
+    display: flex;
+    width: 100%;
+}
 
 
 
@@ -127,49 +168,81 @@
 
 
 
-
-
+/* Updated Manage Products Table Styles */
 
 .ManageProducts-table-container table {
-  margin-top: 12px;
-  background: hsl(88, 50%, 80%);
-  border-collapse: collapse;
-  overflow: hidden;
-  border-radius: 12px;
-  border: 6px solid grey;
-  box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+    margin-top: 30px;
+    width: 100%; /* Ensure the table uses full width of its container */
+    background: #ffffff; /* White background for the table body */
+    border-collapse: separate; /* Allows border-radius on table */
+    border-spacing: 0; /* Remove space between cells */
+    overflow: hidden; 
+    border-radius: 10px; /* Consistent border radius */
+    /* Cleaner, lighter shadow */
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1); 
 }
 
-.ManageProducts-table-container table th:last-child,
-.ManageProducts-table-container table td:last-child {
-  border-right: none;
-}
-
-.ManageProducts-table-container table tr:last-child td {
-  border-bottom: none;
-}
-
+/* --- Cell Spacing and Alignment --- */
 
 .ManageProducts-table-container table th,
 .ManageProducts-table-container table td {
-  text-align: center;
+    padding: 8px 12px; /* Consistent padding for readability */
+    text-align: left; /* Align text to the left for better reading of data */
+    border-bottom: 1px solid #e0e0e0; /* Subtle horizontal line separator */
 }
 
+/* --- Table Header (TH) Styles --- */
 
 .ManageProducts-table-container table th {
-  height: 3rem;
-  border-right: 1px solid hsl(88, 50%, 75%) ;
-  background: hsl(88, 50%, 85%);
+    height: 3rem;
+    /* Refreshing Teal/Green header background */
+    background: #1abc9c; 
+    color: #ffffff; /* White text color for contrast */
+    font-weight: 600;
+    text-transform: uppercase;
+    font-size: 0.9em;
+    letter-spacing: 0.5px;
+    text-align: center; /* Center header text */
+    /* Remove vertical borders between headers for a cleaner look */
+    border-right: none; 
 }
+
+/* Specific styling for the last column (e.g., actions) */
+.ManageProducts-table-container table th:last-child,
+.ManageProducts-table-container table td:last-child {
+    text-align: center; /* Keep action columns centered */
+    border-right: none;
+}
+
+/* --- Table Data (TD) Styles --- */
 
 .ManageProducts-table-container table td {
-  border-bottom: 2px solid hsl(88, 50%, 80%) ;
-  height: 5rem;
+    height: auto; /* Let content dictate height */
+    text-align: center;
+    vertical-align: middle;
 }
 
+/* Remove bottom border from the last row */
+.ManageProducts-table-container table tr:last-child td {
+    border-bottom: none;
+}
+
+/* --- Index Column Styling --- */
+
 .ManageProducts-table-container table .index {
-  background: hsl(88, 35%, 75%);
-  width: 30px;
+    /* Lighter shade of the primary color for the index */
+    background: #d0ece5; 
+    color: #2c3e50;
+    width: 50px; 
+    font-weight: bold;
+    text-align: center;
+}
+
+/* --- Row Hover Effect (Recommended) --- */
+
+.ManageProducts-table-container table tbody tr:hover {
+    background-color: #f7fcfb; /* Very light background on row hover */
+    cursor: pointer;
 }
 
 /* Alternate light and dark shade between each row */

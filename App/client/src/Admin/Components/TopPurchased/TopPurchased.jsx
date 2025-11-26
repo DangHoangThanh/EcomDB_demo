@@ -13,7 +13,7 @@ import { vnd } from "../../../utils/currencyUtils";
 function TopPurchased({ currentUser = null, onCancel, onSuccess }) {
   const [loading, setLoading] = useState(false);
   const [topPurchasedList, setTopPurchasedList] = useState([]);
-  const limit = 6;
+  const limit = 5;
 
   const fetchTopPurchased = async (UserID = null, limit = 5) => {
     setLoading(true);

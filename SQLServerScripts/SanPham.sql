@@ -316,19 +316,19 @@ GO
 
 
 -- Thêm sản phẩm tươi sống
-EXEC Add_DoTuoiSong N'Cà Chua Đà Lạt', 25000.00, N'Cà chua bi Đà Lạt, dùng làm salad', 5.0, N'VN', '2025-11-25';
-EXEC Add_DoTuoiSong N'Gạo Thơm', 120000.00, N'Bao 5kg gạo thơm đặc sản', 5.0, N'VN', '2025-11-25';
-EXEC Add_DoTuoiSong N'Khoai Tay Đà Lạt', 42000.00, N'Túi 1kg khoai tây vàng tươi', 5.0, N'VN', '2025-11-25';
-EXEC Add_DoTuoiSong N'Táo Đỏ Mỹ', 35000.00, N'Táo Galamus New Zealand, ngon ngọt, giòn tan', 5.0, N'VN', '2025-11-25';
-EXEC Add_DoTuoiSong N'Thịt Bò Phi Lê', 199000.00, N'Thịt bò Úc cắt lát dày 1.5cm, tươi mới', 5.0, N'VN', '2025-11-25';
-EXEC Add_DoTuoiSong N'Trứng Gà Ta', 38000.00, N'Vỉ 10 quả trứng gà ta, đảm bảo chất lượng', 5.0, N'VN', '2025-11-25';
-EXEC Add_DoTuoiSong N'Dưa Leo Baby', 18000.00, N'Dưa leo giống Nhật, giòn ngọt, tươi mát', 4.0, N'VN', '2025-11-30';
-EXEC Add_DoTuoiSong N'Cải Bó Xôi', 30000.00, N'Rau bina tươi, giàu sắt và vitamin', 3.0, N'VN', '2025-11-28';
+EXEC Add_DoTuoiSong N'Cà Chua Đà Lạt', 25000.00, N'Cà chua bi Đà Lạt, dùng làm salad', 5.0, N'VN', '2026-11-25';
+EXEC Add_DoTuoiSong N'Gạo Thơm', 120000.00, N'Bao 5kg gạo thơm đặc sản', 5.0, N'VN', '2026-11-25';
+EXEC Add_DoTuoiSong N'Khoai Tay Đà Lạt', 42000.00, N'Túi 1kg khoai tây vàng tươi', 5.0, N'VN', '2026-11-25';
+EXEC Add_DoTuoiSong N'Táo Đỏ Mỹ', 35000.00, N'Táo Galamus New Zealand, ngon ngọt, giòn tan', 5.0, N'VN', '2026-11-25';
+EXEC Add_DoTuoiSong N'Thịt Bò Phi Lê', 199000.00, N'Thịt bò Úc cắt lát dày 1.5cm, tươi mới', 5.0, N'VN', '2026-11-25';
+EXEC Add_DoTuoiSong N'Trứng Gà Ta', 38000.00, N'Vỉ 10 quả trứng gà ta, đảm bảo chất lượng', 5.0, N'VN', '2026-11-25';
+EXEC Add_DoTuoiSong N'Dưa Leo Baby', 18000.00, N'Dưa leo giống Nhật, giòn ngọt, tươi mát', 4.0, N'VN', '2026-11-30';
+EXEC Add_DoTuoiSong N'Cải Bó Xôi', 30000.00, N'Rau bina tươi, giàu sắt và vitamin', 3.0, N'VN', '2026-11-28';
 EXEC Add_DoTuoiSong N'Sữa Tươi Nguyên Kem', 48000.00, N'Hộp 1 lít sữa tươi tiệt trùng, béo ngậy', 5.0, N'Úc', '2026-03-15';
-EXEC Add_DoTuoiSong N'Cá Hồi Fillet', 350000.00, N'Miếng cá hồi Na Uy tươi, đã lóc xương', 2.0, N'Na Uy', '2025-11-27';
-EXEC Add_DoTuoiSong N'Nước Cam Tươi', 55000.00, N'Chai 1 lít nước cam ép 100%, không đường', 5.0, N'VN', '2025-12-05';
-EXEC Add_DoTuoiSong N'Chuối Tây', 20000.00, N'Nải chuối Tây chín vàng, cung cấp kali', 5.0, N'VN', '2025-11-29';
-EXEC Add_DoTuoiSong N'Thịt Heo Ba Rọi', 115000.00, N'Thịt heo sạch, dùng để kho hoặc chiên', 3.0, N'VN', '2025-11-26';
+EXEC Add_DoTuoiSong N'Cá Hồi Fillet', 350000.00, N'Miếng cá hồi Na Uy tươi, đã lóc xương', 2.0, N'Na Uy', '2026-11-27';
+EXEC Add_DoTuoiSong N'Nước Cam Tươi', 55000.00, N'Chai 1 lít nước cam ép 100%, không đường', 5.0, N'VN', '2026-12-05';
+EXEC Add_DoTuoiSong N'Chuối Tây', 20000.00, N'Nải chuối Tây chín vàng, cung cấp kali', 5.0, N'VN', '2026-11-29';
+EXEC Add_DoTuoiSong N'Thịt Heo Ba Rọi', 115000.00, N'Thịt heo sạch, dùng để kho hoặc chiên', 3.0, N'VN', '2026-11-26';
 
 -- Thêm sản phẩm đồ gia dụng
 EXEC Add_DoGiaDung N'Kem Đánh Răng', 28000.00, N'Tuýp 180g kem đánh răng tạo bọt', N'không', N'12 tháng', N'PS';

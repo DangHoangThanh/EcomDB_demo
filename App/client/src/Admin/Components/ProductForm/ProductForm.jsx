@@ -65,7 +65,7 @@ function ProductForm({ mode, currentItem = null, onCancel, onSuccess, setLoading
       if (mode === "add") {
         // 1. ADD MODE: Call the API to create a new product
         console.log("Submitting new product...");
-
+        
         const productInfo = {
           TenSP: formData.TenSP,
           GiaTien: formData.GiaTien,
@@ -73,9 +73,15 @@ function ProductForm({ mode, currentItem = null, onCancel, onSuccess, setLoading
           LoaiSP: formData.LoaiSP
         };
   
+        if (!productInfo.TenSP || !productInfo.GiaTien || !productInfo.MoTa || !productInfo.LoaiSP) {
+          setLoading(false);
+          alert("Form sản phẩm thiếu thông tin");
+          return;
+        }
+
         const response = await newProduct(productInfo);
 
-        alert("Product created successfully!");
+        alert("Tạo sản phẩm thành công!");
       } else if (mode === "edit") {
         // 2. EDIT MODE: Call the API to update the existing product
         // productId required
@@ -90,7 +96,7 @@ function ProductForm({ mode, currentItem = null, onCancel, onSuccess, setLoading
   
         const response = await editProduct(MaSP, productInfo);
 
-        alert("Product updated successfully!");
+        alert("Chỉnh sửa sản phẩm thành công!");
       } else if (mode === "delete") {
         // 3. DELETE MODE: Call the API to delete the existing product
         //  productId required
@@ -98,7 +104,7 @@ function ProductForm({ mode, currentItem = null, onCancel, onSuccess, setLoading
         const MaSP = currentItem.MaSP;
         const response = await deleteProduct(MaSP);
 
-        alert("Product Deleted successfully!");
+        alert("Xóa sản phẩm thành công!");
       }
 
       onSuccess();

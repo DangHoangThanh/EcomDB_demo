@@ -363,6 +363,76 @@ GO
 EXEC InsertDonHangItem 'ORD00006', 'PRO00003', 1; 
 GO
 
+
+
+-- Order 7 (User USE00007)
+EXEC InsertDonHang 'USE00007', N'22/3 Cong Hoa, Q. Tan Binh';
+GO
+
+-- Order 8 (User USE00008)
+EXEC InsertDonHang 'USE00008', N'120 Pasteur, Q. 1';
+GO
+
+-- Order 9 (User USE00009)
+EXEC InsertDonHang 'USE00009', N'345 Truong Chinh, Q. Tan Phu';
+GO
+
+-- Order 10 (User USE00010)
+EXEC InsertDonHang 'USE00010', N'88 Cach Mang Thang Tam, Q. 3';
+GO
+
+-- Order 11 (User USE00001 - Reordering)
+EXEC InsertDonHang 'USE00001', N'123 Phan Van Tri, Q. Go Vap';
+GO
+
+-- Order 12 (User USE00005 - Reordering)
+EXEC InsertDonHang 'USE00005', N'30 Vo Thi Sau, Q. Tan Binh';
+GO
+
+--- Add Items to New Orders ---
+
+-- Order 7 (5 items)
+EXEC InsertDonHangItem 'ORD00007', 'PRO00001', 1;
+EXEC InsertDonHangItem 'ORD00007', 'PRO00002', 1;
+EXEC InsertDonHangItem 'ORD00007', 'PRO00003', 1;
+EXEC InsertDonHangItem 'ORD00007', 'PRO00004', 1;
+EXEC InsertDonHangItem 'ORD00007', 'PRO00005', 1;
+GO
+
+-- Order 8 (4 items)
+EXEC InsertDonHangItem 'ORD00008', 'PRO00006', 2;
+EXEC InsertDonHangItem 'ORD00008', 'PRO00007', 3;
+EXEC InsertDonHangItem 'ORD00008', 'PRO00008', 1;
+EXEC InsertDonHangItem 'ORD00008', 'PRO00009', 4;
+GO
+
+-- Order 9 (2 items)
+EXEC InsertDonHangItem 'ORD00009', 'PRO00010', 5;
+EXEC InsertDonHangItem 'ORD00009', 'PRO00011', 2;
+GO
+
+-- Order 10 (3 items)
+EXEC InsertDonHangItem 'ORD00010', 'PRO00012', 1;
+EXEC InsertDonHangItem 'ORD00010', 'PRO00013', 2;
+EXEC InsertDonHangItem 'ORD00010', 'PRO00014', 1;
+GO
+
+-- Order 11 (User USE00001 - 5 items)
+EXEC InsertDonHangItem 'ORD00011', 'PRO00005', 2;
+EXEC InsertDonHangItem 'ORD00011', 'PRO00006', 1;
+EXEC InsertDonHangItem 'ORD00011', 'PRO00010', 1;
+EXEC InsertDonHangItem 'ORD00011', 'PRO00011', 3;
+EXEC InsertDonHangItem 'ORD00011', 'PRO00015', 1;
+GO
+
+-- Order 12 (User USE00005 - 1 item)
+EXEC InsertDonHangItem 'ORD00012', 'PRO00002', 5;
+GO
+
+
+
+
+
 SELECT * FROM [DonHang];
 SELECT * FROM [DonHangItem];
 GO

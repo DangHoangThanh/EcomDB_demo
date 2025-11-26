@@ -17,7 +17,12 @@
 }
 
 .AdminOrderRow td img {
-  height: 100%;
+  max-height: 80px;
+  width: auto; 
+  object-fit: contain; 
+  border-radius: 4px;
+  display: block;
+  margin: 0 auto;
 }
 
 .status {
@@ -85,6 +90,7 @@
 .AdminOrder-details-content {
   padding: 20px 40px;
   background: hsl(34, 60%, 97%);
+  text-align: start;
 }
 
 .AdminOrder-details-content p,

@@ -167,23 +167,25 @@ GO
 
 -- Insert sample data
 
-EXEC InsertUser N'hashed_pass_a', N'Nguyen Van A', N'Nam', '0901234567', 'nguyenvana@email.com';
-EXEC InsertUser N'hashed_pass_b', N'Tran Thi B', N'Nu', '0917654321', 'tranthib@email.com';
-EXEC InsertUser N'hashed_pass_c', N'Le Minh Canh', N'Nam', '0988777666', 'leminhc@email.com';
-EXEC InsertUser N'hashed_pass_d', N'Pham Thu Hang', N'Nu', '0399888777', 'phthuha@email.com';
-EXEC InsertUser N'hashed_pass_e', N'Vu Dinh Dung', N'Nam', '0861112222', 'vudung@email.com';
-EXEC InsertUser N'hash_f', N'Hoang Van F', N'Nam', '0812345678', 'hoangf@email.com';
-EXEC InsertUser N'hash_g', N'Ngo Thi G', N'Nu', '0937654321', 'ngog@email.com';
-EXEC InsertUser N'hash_h', N'Dao Quoc H', N'Nam', '0978888777', 'daoh@email.com';
-EXEC InsertUser N'hash_i', N'Lam Khanh I', N'Nu', '0389999000', 'lami@email.com';
-EXEC InsertUser N'hash_j', N'Mai Dinh J', N'Nam', '0891113333', 'maij@email.com';
-EXEC InsertUser N'hash_k', N'Phan Thi K', N'Nu', '0945556666', 'phank@email.com';
-EXEC InsertUser N'hash_l', N'Tran Ba L', N'Nam', '0923456789', 'tranl@email.com';
-EXEC InsertUser N'hash_m', N'Vo Thu M', N'Nu', '0367890123', 'vom@email.com';
-EXEC InsertUser N'hash_n', N'Bui Duc N', N'Nam', '0778889990', 'buin@email.com';
-EXEC InsertUser N'hash_o', N'Do Lan Oanh', N'Nu', '0961234567', 'doanh@email.com';
-EXEC InsertUser N'admin', N'Nguyễn Admin', N'Nam', '0964799567', 'NgAdmin@email.com';
+EXEC InsertUser N'hashed_pass_a', N'Nguyễn Văn A', N'Nam', '0901234567', 'nguyenvana@email.com';
+EXEC InsertUser N'hashed_pass_b', N'Trần Thị B', N'Nữ', '0917654321', 'tranthib@email.com';
+EXEC InsertUser N'hashed_pass_c', N'Lê Minh Cảnh', N'Nam', '0988777666', 'leminhc@email.com';
+EXEC InsertUser N'hashed_pass_d', N'Phạm Thu Hằng', N'Nữ', '0399888777', 'phthuha@email.com';
+EXEC InsertUser N'hashed_pass_e', N'Vũ Đình Dũng', N'Nam', '0861112222', 'vudung@email.com';
 
+EXEC InsertUser N'hash_f', N'Hoàng Văn Phúc', N'Nam', '0812345678', 'hoangf@email.com';
+EXEC InsertUser N'hash_g', N'Ngô Thị Giang', N'Nữ', '0937654321', 'ngog@email.com';
+EXEC InsertUser N'hash_h', N'Đào Quốc Hùng', N'Nam', '0978888777', 'daoh@email.com';
+EXEC InsertUser N'hash_i', N'Lâm Khánh Linh', N'Nữ', '0389999000', 'lami@email.com';
+EXEC InsertUser N'hash_j', N'Mai Đình Khoa', N'Nam', '0891113333', 'maij@email.com';
+EXEC InsertUser N'hash_k', N'Phan Thị Kim', N'Nữ', '0945556666', 'phank@email.com';
+EXEC InsertUser N'hash_l', N'Trần Bá Lộc', N'Nam', '0923456789', 'tranl@email.com';
+
+-- 4 Admins
+EXEC InsertUser N'vom', N'Võ Thu Minh', N'Nữ', '0367890123', 'vom@email.com';
+EXEC InsertUser N'buin', N'Bùi Đức Nhân', N'Nam', '0778889990', 'buin@email.com';
+EXEC InsertUser N'doanh', N'Đỗ Lan Oanh', N'Nữ', '0961234567', 'doanh@email.com';
+EXEC InsertUser N'admin', N'Nguyễn Admin', N'Nam', '0964799567', 'NgAdmin@email.com';
 
 
 -- Register Sample Customers (Users USE00001 to USE00012) ---

@@ -11,7 +11,7 @@
 
 #ManageUsers-header {
   margin: 50px;
-  background: hsl(239, 52%, 58%);
+  background: #34495e;
   text-align: center;
   border-radius: 20px;
   box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
@@ -85,46 +85,77 @@
 
 
 
-
-
 .admin-users-list #table {
-  margin-top: 20px;
-  background: hsl(239, 50%, 85%);
-  border-collapse: collapse;
-  overflow: hidden;
-  border-radius: 12px;
-  border: 6px solid grey;
-  box-shadow: 0 5px 20px rgba(0, 0, 0, 0.3);
+    margin-top: 30px;
+    width: 100%; /* Ensure the table uses full width of its container */
+    background: #ffffff; /* White background for the table body */
+    border-collapse: separate; /* Allows border-radius on table */
+    border-spacing: 0; /* Remove space between cells */
+    overflow: hidden; 
+    border-radius: 10px; /* Slightly reduced border radius */
+    /* Removed the thick 6px border */
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1); /* Lighter, cleaner shadow */
 }
 
-.admin-users-list #table th:last-child,
-.admin-users-list #table td:last-child {
-  border-right: none;
-}
-
-.admin-users-list #table tr:last-child td {
-  border-bottom: none;
-}
-
+/* --- Cell Spacing and Alignment --- */
 
 .admin-users-list #table th,
 .admin-users-list #table td {
-  text-align: center;
+    padding: 8px 12px; /* Increase padding for better readability */
+    text-align: left; /* Align text to the left for better reading of data */
+    border-bottom: 1px solid #e0e0e0; /* Subtle horizontal line separator */
 }
 
+/* --- Table Header (TH) Styles --- */
 
 .admin-users-list #table th {
-  height: 3rem;
-  background: hsl(239, 50%, 90%);
+    height: 3rem;
+    /* Darker, professional header background */
+    background: #34495e; 
+    color: #f8f9fa; /* Light text color for contrast */
+    font-weight: 600;
+    text-transform: uppercase;
+    font-size: 0.9em;
+    letter-spacing: 0.5px;
+    text-align: center; /* Center header text for clarity */
 }
+
+/* Specific styling for the last column (e.g., actions) */
+.admin-users-list #table th:last-child,
+.admin-users-list #table td:last-child {
+    text-align: center; /* Keep action columns centered */
+    border-right: none;
+}
+
+/* --- Table Data (TD) Styles --- */
 
 .admin-users-list #table td {
-  height: 5rem;
+    height: auto; /* Let content dictate height, but ensure minimum padding */
+    text-align: center;
+    vertical-align: middle;
 }
 
+/* Remove bottom border from the last row */
+.admin-users-list #table tr:last-child td {
+    border-bottom: none;
+}
+
+/* --- Index Column Styling --- */
+
 .admin-users-list #table .index {
-  background: hsl(239, 40%, 75%);
-  width: 30px;
+    /* Subtle background for the index column */
+    background: #d2d4d6; 
+    color: #495057;
+    width: 50px; /* Increased width for better visual balance */
+    font-weight: bold;
+    text-align: center;
+}
+
+/* --- Row Hover Effect (Optional but Recommended) --- */
+
+.admin-users-list #table tbody tr:hover {
+    background-color: #f8f9fa; /* Light grey background on row hover */
+    cursor: pointer;
 }
 
 /* Alternate light and dark shade between each row */
