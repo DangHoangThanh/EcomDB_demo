@@ -100,7 +100,6 @@ function ManageProducts() {
       setProducts(resProducts);
       setTotalProducts(resPagination.TotalCount);
       setTotalPages(resPagination.TotalPages);
-      setCurrentPage(resPagination.CurrentPage);
     } catch (error) {
       console.log(error);
       alert("Fetch products failed");
@@ -110,26 +109,35 @@ function ManageProducts() {
 
 
 
-
-  // Fetch new page upon page change
-  useEffect(() => {
+  const fetchLogic = (page) => {
     if (debouncedSearchTerm) {
       setSelectedProductCategory('Tất cả');
       setSelectedSortOrder('Default');
-      handleSearch(debouncedSearchTerm, currentPage, limit);
+      handleSearch(debouncedSearchTerm, page, limit);
     } else {
       if (selectedProductCategory === "Tất cả") {
         if (selectedSortOrder === "Default") {
-          fetchProducts(currentPage, limit);
+          fetchProducts(page, limit);
         } else {
-          fetchProductsSorted(selectedSortOrder, currentPage, limit);
+          fetchProductsSorted(selectedSortOrder, page, limit);
         }
       } else {
         setSelectedSortOrder('Default');
-        fetchProductsByCategory(selectedProductCategory, currentPage, limit);
+        fetchProductsByCategory(selectedProductCategory, page, limit);
       }
     }
-  }, [currentPage, selectedProductCategory, selectedSortOrder, debouncedSearchTerm]);
+  }
+
+  useEffect(() => {
+    setCurrentPage(1);
+    fetchLogic(1);
+  }, [selectedProductCategory, selectedSortOrder, debouncedSearchTerm])
+
+
+  // Fetch new page upon page change
+  useEffect(() => {
+    fetchLogic(currentPage)
+  }, [currentPage]);
 
 
 
